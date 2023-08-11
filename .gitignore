@@ -1,0 +1,15 @@
+# General
+/*
+!.gitignore
+
+# Application
+!/vs
+!/deps
+!/src
+
+# Visual Studio
+/vs/*
+!/vs/*.sln
+!/vs/*.vcxproj
+!/vs/*.vcxproj.filters
+!/vs/*.vcxproj.user
