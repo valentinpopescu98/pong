@@ -9,9 +9,10 @@ class World {
 		World();
 		~World();
 		void render();
-	private:
+
 		Mesh* player1;
 		Mesh* player2;
+	private:
 		Mesh* ball;
 		//std::vector<Mesh> environment;
 		Shader* programShader;

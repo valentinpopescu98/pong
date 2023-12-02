@@ -20,27 +20,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\src\glad.c" />
-    <ClCompile Include="..\src\Engine.cpp" />
-    <ClCompile Include="..\src\InputManager.cpp" />
+    <ClCompile Include="..\src\engine\Engine.cpp" />
+    <ClCompile Include="..\src\engine\InputManager.cpp" />
+    <ClCompile Include="..\src\engine\Shader.cpp" />
+    <ClCompile Include="..\src\engine\World.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\model\EBO.cpp" />
     <ClCompile Include="..\src\Model\Mesh.cpp" />
     <ClCompile Include="..\src\model\VAO.cpp" />
     <ClCompile Include="..\src\model\VBO.cpp" />
-    <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\Utils.cpp" />
-    <ClCompile Include="..\src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Engine.h" />
-    <ClInclude Include="..\src\InputManager.h" />
+    <ClInclude Include="..\src\engine\Engine.h" />
+    <ClInclude Include="..\src\engine\InputManager.h" />
+    <ClInclude Include="..\src\engine\Shader.h" />
+    <ClInclude Include="..\src\engine\World.h" />
     <ClInclude Include="..\src\model\EBO.h" />
     <ClInclude Include="..\src\Model\Mesh.h" />
     <ClInclude Include="..\src\model\VAO.h" />
     <ClInclude Include="..\src\model\VBO.h" />
-    <ClInclude Include="..\src\Shader.h" />
     <ClInclude Include="..\src\Utils.h" />
-    <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\shader\frag.glsl" />

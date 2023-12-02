@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\deps\src\glad.c" />
-    <ClCompile Include="..\src\Engine.cpp" />
-    <ClCompile Include="..\src\InputManager.cpp" />
-    <ClCompile Include="..\src\World.cpp" />
     <ClCompile Include="..\src\model\EBO.cpp">
       <Filter>model</Filter>
     </ClCompile>
@@ -18,13 +15,21 @@
     <ClCompile Include="..\src\Model\Mesh.cpp">
       <Filter>model</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\Utils.cpp" />
+    <ClCompile Include="..\src\engine\Engine.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\InputManager.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\Shader.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\World.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Engine.h" />
-    <ClInclude Include="..\src\InputManager.h" />
-    <ClInclude Include="..\src\World.h" />
     <ClInclude Include="..\src\model\EBO.h">
       <Filter>model</Filter>
     </ClInclude>
@@ -37,8 +42,19 @@
     <ClInclude Include="..\src\Model\Mesh.h">
       <Filter>model</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Shader.h" />
     <ClInclude Include="..\src\Utils.h" />
+    <ClInclude Include="..\src\engine\Engine.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\InputManager.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Shader.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\World.h">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="model">
@@ -46,6 +62,9 @@
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{56d0d064-a014-4e83-b48c-26389dfbb1e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{def8f783-632e-478b-9e49-c7bc7200c10e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

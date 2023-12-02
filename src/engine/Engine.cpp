@@ -1,6 +1,11 @@
 #include "Engine.h"
+#include "InputManager.h"
 
-Engine::Engine(int resX, int resY, bool isFullscreen) {
+double Engine::previousTime = 0;
+double Engine::elapsedTime = 0;
+double Engine::deltaTime = 0;
+
+Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -8,13 +13,19 @@ Engine::Engine(int resX, int resY, bool isFullscreen) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     createWindow(resX, resY, isFullscreen);
-    inputManager = new InputManager(window);
     world = new World();
+    inputManager = new InputManager(window, world);
+
+    enableVsync(isVsyncOn);
+
+    /*previousTime = 0.0;
+    elapsedTime = 0.0;
+    deltaTime = 0.0;*/
 }
 
 Engine::~Engine() {
-    delete world;
     delete inputManager;
+    delete world;
     glfwDestroyWindow(window);
 
     glfwTerminate();
@@ -59,6 +70,12 @@ bool Engine::loadGlad() {
     return true;
 }
 
+void Engine::setTimeValues() {
+    elapsedTime = glfwGetTime();
+    deltaTime = elapsedTime - previousTime;
+    previousTime = elapsedTime;
+}
+
 void Engine::enableVsync(bool isEnabled) {
     glfwSwapInterval(isEnabled);
 }
@@ -72,6 +89,9 @@ void Engine::render() {
         beforeUpdate();
         update();
         afterUpdate();
+
+        // Compute time since last frame
+        setTimeValues();
     }
 }
 

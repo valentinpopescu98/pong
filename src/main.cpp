@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "Engine.h"
+#include "engine/Engine.h"
 
 int main() {
-    Engine engine(800, 600, false);
-    engine.enableVsync(true);
+    Engine* engine = new Engine(800, 600, false, true);
 
-    engine.render();
+    engine->render();
 
+    delete engine;
     return 0;
 }

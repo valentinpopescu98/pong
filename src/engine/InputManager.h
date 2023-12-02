@@ -1,11 +1,13 @@
 #pragma once
-#include <GLFW/glfw3.h>
+#include "World.h"
+#include "Engine.h"
 
 class InputManager {
 	public:
-		InputManager(GLFWwindow* window);
+		InputManager(GLFWwindow* window, World* world);
 		~InputManager();
 		void treatKeyboardInputs();
 	private:
 		GLFWwindow* window;
+		World* world;
 };
