@@ -3,9 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "InputManager.h"
 #include "World.h"
-
-class InputManager;
 
 class Engine {
 	public:

@@ -1,9 +1,8 @@
 #include "Engine.h"
-#include "InputManager.h"
 
-double Engine::previousTime = 0;
-double Engine::elapsedTime = 0;
-double Engine::deltaTime = 0;
+double Engine::previousTime = 0.0;
+double Engine::elapsedTime = 0.0;
+double Engine::deltaTime = 0.0;
 
 Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     glfwInit();
@@ -17,10 +16,6 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     inputManager = new InputManager(window, world);
 
     enableVsync(isVsyncOn);
-
-    /*previousTime = 0.0;
-    elapsedTime = 0.0;
-    deltaTime = 0.0;*/
 }
 
 Engine::~Engine() {
@@ -101,7 +96,7 @@ void Engine::beforeUpdate() {
 }
 
 void Engine::update() {
-    inputManager->treatKeyboardInputs();
+    inputManager->treatKeyboardInputs((float) deltaTime);
 
     world->render();
 }
