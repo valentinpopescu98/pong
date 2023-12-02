@@ -8,8 +8,8 @@ class InputManager {
 	public:
 		InputManager(GLFWwindow* window, World* world);
 		~InputManager();
-		void treatKeyboardInputs(float deltaTime);
-	private:
+		void treatKeyboardInputs();
+	protected:
 		GLFWwindow* window;
 		World* world;
 };

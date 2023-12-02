@@ -25,8 +25,8 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
 }
 
 Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices, Mesh& parent,
-    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color) : 
-    Mesh(vertices, indices, position, rotation, scale, color) {
+    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color)
+    : Mesh(vertices, indices, position, rotation, scale, color) {
 
     this->position += parent.position;
     this->rotation += parent.rotation;

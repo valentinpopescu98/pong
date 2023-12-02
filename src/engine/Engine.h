@@ -3,7 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "InputManager.h"
+#include "game/PlayerInputManager.h"
+#include "game/BallController.h"
 #include "World.h"
 
 class Engine {
@@ -27,6 +28,7 @@ class Engine {
 		void afterUpdate();
 
 		GLFWwindow* window;
-		InputManager* inputManager;
 		World* world;
+		PlayerInputManager* playerInputManager;
+		BallController* ballController;
 };

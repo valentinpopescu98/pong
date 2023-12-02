@@ -12,8 +12,8 @@ class World {
 
 		Mesh* player1;
 		Mesh* player2;
-	private:
 		Mesh* ball;
+	private:
 		//std::vector<Mesh> environment;
 		Shader* programShader;
 };

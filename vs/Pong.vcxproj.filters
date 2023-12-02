@@ -28,6 +28,12 @@
     <ClCompile Include="..\src\engine\World.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\game\BallController.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game\PlayerInputManager.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\model\EBO.h">
@@ -55,6 +61,12 @@
     <ClInclude Include="..\src\engine\World.h">
       <Filter>engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\game\BallController.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game\PlayerInputManager.h">
+      <Filter>game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="model">
@@ -65,6 +77,9 @@
     </Filter>
     <Filter Include="engine">
       <UniqueIdentifier>{def8f783-632e-478b-9e49-c7bc7200c10e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{a9073faa-19bf-4392-9679-f84bc6c6614f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
