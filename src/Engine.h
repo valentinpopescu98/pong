@@ -4,19 +4,24 @@
 #include <iostream>
 
 #include "InputManager.h"
+#include "World.h"
 
 class Engine {
-public:
-	Engine();
-	~Engine();
-	void createWindow(int resX, int resY, bool fullscreen);
-	void render();
-	void closeProgram(GLFWwindow* window);
-private:
-	bool checkWindowCreatedSuccessfully();
-	bool loadGlad();
-	static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
+	public:
+		Engine(int resX, int resY, bool isFullscreen);
+		~Engine();
+		void enableVsync(bool isEnabled);
+		void render();
+	private:
+		static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
+		void createWindow(int resX, int resY, bool isFullscreen);
+		bool checkWindowCreatedSuccessfully();
+		bool loadGlad();
+		void beforeUpdate();
+		void update();
+		void afterUpdate();
 
-	GLFWwindow* window;
-	InputManager* inputManager;
+		GLFWwindow* window;
+		InputManager* inputManager;
+		World* world;
 };

@@ -3,5 +3,9 @@
 
 class InputManager {
 	public:
-		void closeWindow(GLFWwindow* window);
+		InputManager(GLFWwindow* window);
+		~InputManager();
+		void treatKeyboardInputs();
+	private:
+		GLFWwindow* window;
 };

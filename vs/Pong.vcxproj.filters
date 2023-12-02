@@ -4,12 +4,56 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\deps\src\glad.c" />
     <ClCompile Include="..\src\Engine.cpp" />
-    <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
+    <ClCompile Include="..\src\World.cpp" />
+    <ClCompile Include="..\src\model\EBO.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\VAO.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\VBO.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Model\Mesh.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Shader.cpp" />
+    <ClCompile Include="..\src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Engine.h" />
-    <ClInclude Include="..\src\Renderer.h" />
     <ClInclude Include="..\src\InputManager.h" />
+    <ClInclude Include="..\src\World.h" />
+    <ClInclude Include="..\src\model\EBO.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\VAO.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\VBO.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Model\Mesh.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Shader.h" />
+    <ClInclude Include="..\src\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{9b57d9f8-cedf-4d29-a254-96c33b18d6b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{56d0d064-a014-4e83-b48c-26389dfbb1e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\shader\frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\src\shader\vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

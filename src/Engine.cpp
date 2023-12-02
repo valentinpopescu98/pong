@@ -1,48 +1,43 @@
 #include "Engine.h"
 
-Engine::Engine() {
+Engine::Engine(int resX, int resY, bool isFullscreen) {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    inputManager = new InputManager();
+    createWindow(resX, resY, isFullscreen);
+    inputManager = new InputManager(window);
+    world = new World();
 }
 
 Engine::~Engine() {
-    //glfwDestroyWindow(this->window);
+    delete world;
     delete inputManager;
+    glfwDestroyWindow(window);
 
     glfwTerminate();
 }
 
-void Engine::createWindow(int resX, int resY, bool fullscreen) {
-    GLFWmonitor* primaryMonitor = fullscreen ? glfwGetPrimaryMonitor() : NULL;
-    this->window = glfwCreateWindow(resX, resY, "Pong", primaryMonitor, NULL);
+void Engine::createWindow(int resX, int resY, bool isFullscreen) {
+    GLFWmonitor* primaryMonitor = isFullscreen ? glfwGetPrimaryMonitor() : NULL;
+    window = glfwCreateWindow(resX, resY, "Pong", primaryMonitor, NULL);
 
-    if (!checkWindowCreatedSuccessfully()) return;
+    if (!checkWindowCreatedSuccessfully()) {
+        return;
+    }
     glfwMakeContextCurrent(window);
 
-    if (!loadGlad()) return;
+    if (!loadGlad()) {
+        return;
+    }
 
     // Set initial viewport size
     glViewport(0, 0, resX, resY);
 
     // Change viewport on window resize
     glfwSetFramebufferSizeCallback(window, Engine::frameBufferSizeCallback);
-}
-
-void Engine::render() {
-    while (!glfwWindowShouldClose(this->window)) {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        inputManager->closeWindow(this->window);
-
-        glfwPollEvents();
-        glfwSwapBuffers(this->window);
-    }
 }
 
 bool Engine::checkWindowCreatedSuccessfully() {
@@ -64,6 +59,34 @@ bool Engine::loadGlad() {
     return true;
 }
 
+void Engine::enableVsync(bool isEnabled) {
+    glfwSwapInterval(isEnabled);
+}
+
 void Engine::frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
+}
+
+void Engine::render() {
+    while (!glfwWindowShouldClose(window)) {
+        beforeUpdate();
+        update();
+        afterUpdate();
+    }
+}
+
+void Engine::beforeUpdate() {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Engine::update() {
+    inputManager->treatKeyboardInputs();
+
+    world->render();
+}
+
+void Engine::afterUpdate() {
+    glfwPollEvents();
+    glfwSwapBuffers(window);
 }
