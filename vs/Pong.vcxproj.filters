@@ -34,6 +34,9 @@
     <ClCompile Include="..\src\game\PlayerInputManager.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\engine\CollisionManager.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\model\EBO.h">
@@ -66,6 +69,9 @@
     </ClInclude>
     <ClInclude Include="..\src\game\PlayerInputManager.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CollisionManager.h">
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

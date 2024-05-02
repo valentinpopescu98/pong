@@ -5,14 +5,14 @@ World::World() {
 	programShader = new Shader("src/shader/vert.glsl", "src/shader/frag.glsl");
 
 	player1 = new Mesh(Utils::quadVertices, Utils::quadIndices,
-		glm::vec3(-0.9, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.3, 1), glm::vec3(1, 0, 0));
+		glm::vec3(-0.9, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.3, 0), glm::vec3(1, 0, 0));
 	player2 = new Mesh(Utils::quadVertices, Utils::quadIndices,
-		glm::vec3(0.9, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.3, 1), glm::vec3(0, 0, 1));
+		glm::vec3(0.9, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.3, 0), glm::vec3(0, 0, 1));
 
 	Utils::buildCircle(1, 24);
 
 	ball = new Mesh(Utils::circleVertices, Utils::circleIndices,
-		glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.04, 0.05, 0.05), glm::vec3(1, 1, 1));
+		glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.04, 0.05, 0), glm::vec3(1, 1, 1));
 }
 
 World::~World() {

@@ -13,15 +13,17 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
 
     createWindow(resX, resY, isFullscreen);
     world = new World();
-    playerInputManager = new PlayerInputManager(window, world, 10); // Also creates InputManager
-    ballController = new BallController(world->ball, 0.1);
+    playerInputManager = new PlayerInputManager(window, world, 10);
+    collisionManager = new CollisionManager(world->player1, world->player2, world->ball);
+    ballController = new BallController(collisionManager, world->ball, 0.5);
 
     enableVsync(isVsyncOn);
 }
 
 Engine::~Engine() {
     delete ballController;
-    delete playerInputManager; // // Also deletes InputManager
+    delete collisionManager;
+    delete playerInputManager;
     delete world;
 
     glfwDestroyWindow(window);
@@ -98,9 +100,9 @@ void Engine::beforeUpdate() {
 }
 
 void Engine::update() {
-    playerInputManager->treatKeyboardInputs((float) deltaTime); // Also treats inputs from InputManager
-
     ballController->moveBall((float) deltaTime);
+    ballController->repelBallIfCollided();
+    playerInputManager->treatKeyboardInputs((float) deltaTime);
 
     world->render();
 }

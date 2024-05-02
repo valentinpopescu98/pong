@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\deps\src\glad.c" />
+    <ClCompile Include="..\src\engine\CollisionManager.cpp" />
     <ClCompile Include="..\src\engine\Engine.cpp" />
     <ClCompile Include="..\src\engine\InputManager.cpp" />
     <ClCompile Include="..\src\engine\Shader.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="..\src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\engine\CollisionManager.h" />
     <ClInclude Include="..\src\engine\Engine.h" />
     <ClInclude Include="..\src\engine\InputManager.h" />
     <ClInclude Include="..\src\engine\Shader.h" />
