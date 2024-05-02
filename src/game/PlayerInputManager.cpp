@@ -17,18 +17,18 @@ void PlayerInputManager::treatKeyboardInputs(float deltaTime) {
 	InputManager::treatKeyboardInputs();
 
 	// Move player1
-	if (player1->position.y < 0.8 && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	if (player1->position.y < 0.75 && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		player1->position += multiplier * glm::vec3(0, 0.1, 0) * deltaTime;
 	}
-	else if (player1->position.y > -0.8 && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	else if (player1->position.y > -0.75 && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		player1->position += multiplier * glm::vec3(0, -0.1, 0) * deltaTime;
 	}
 
 	// Move player2
-	if (player2->position.y < 0.8 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+	if (player2->position.y < 0.75 && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		player2->position += multiplier * glm::vec3(0, 0.1, 0) * deltaTime;
 	}
-	else if (player2->position.y > -0.8 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	else if (player2->position.y > -0.75 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		player2->position += multiplier * glm::vec3(0, -0.1, 0) * deltaTime;
 	}
 }

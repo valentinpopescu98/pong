@@ -10,6 +10,8 @@ class World {
 		~World();
 		void render();
 
+		Mesh* floor;
+		Mesh* ceiling;
 		Mesh* player1;
 		Mesh* player2;
 		Mesh* ball;

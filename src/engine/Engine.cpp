@@ -14,7 +14,7 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     createWindow(resX, resY, isFullscreen);
     world = new World();
     playerInputManager = new PlayerInputManager(window, world, 10);
-    collisionManager = new CollisionManager(world->player1, world->player2, world->ball);
+    collisionManager = new CollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
     ballController = new BallController(collisionManager, world->ball, 0.5);
 
     enableVsync(isVsyncOn);

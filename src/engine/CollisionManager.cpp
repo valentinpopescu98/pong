@@ -1,6 +1,8 @@
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Mesh* player1, Mesh* player2, Mesh* ball) {
+CollisionManager::CollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball) {
+	this->floor = floor;
+	this->ceiling = ceiling;
 	this->player1 = player1;
 	this->player2 = player2;
 	this->ball = ball;
@@ -10,6 +12,8 @@ CollisionManager::CollisionManager(Mesh* player1, Mesh* player2, Mesh* ball) {
 }
 
 CollisionManager::~CollisionManager() {
+	this->floor = NULL;
+	this->ceiling = NULL;
 	this->player1 = NULL;
 	this->player2 = NULL;
 	this->ball = NULL;
@@ -20,11 +24,13 @@ CollisionManager::~CollisionManager() {
 bool CollisionManager::hasCollided() {
 	float ballRadius = ball->scale.x / 2;
 
-	return hasCollidedPlayer(player1->position, player1->scale, ball->position, ballRadius) ||
-		hasCollidedPlayer(player2->position, player2->scale, ball->position, ballRadius);
+	return hasCollidedMesh(floor->position, floor->scale, ball->position, ballRadius) ||
+		hasCollidedMesh(ceiling->position, ceiling->scale, ball->position, ballRadius) ||
+		hasCollidedMesh(player1->position, player1->scale, ball->position, ballRadius) ||
+		hasCollidedMesh(player2->position, player2->scale, ball->position, ballRadius);
 }
 
-bool CollisionManager::hasCollidedPlayer(glm::vec3 playerPos, glm::vec3 playerScale, glm::vec3 ballPos, float ballRadius) {
+bool CollisionManager::hasCollidedMesh(glm::vec3 playerPos, glm::vec3 playerScale, glm::vec3 ballPos, float ballRadius) {
 	glm::vec3 playerMin = glm::vec3(playerPos.x - playerScale.x / 2, playerPos.y - playerScale.y / 2, 0);
 	glm::vec3 playerMax = glm::vec3(playerPos.x + playerScale.x / 2, playerPos.y + playerScale.y / 2, 0);
 

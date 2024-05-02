@@ -6,12 +6,14 @@
 
 class CollisionManager {
 	public:
-		CollisionManager(Mesh* player1, Mesh* player2, Mesh* ball);
+		CollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball);
 		~CollisionManager();
 		bool hasCollided();
 	private:
-		bool hasCollidedPlayer(glm::vec3 playerPos, glm::vec3 playerScale, glm::vec3 ballPos, float ballRadius);
+		bool hasCollidedMesh(glm::vec3 meshPos, glm::vec3 meshScale, glm::vec3 ballPos, float ballRadius);
 
+		Mesh* floor;
+		Mesh* ceiling;
 		Mesh* player1;
 		Mesh* player2;
 		Mesh* ball;
