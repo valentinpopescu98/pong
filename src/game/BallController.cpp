@@ -24,12 +24,27 @@ void BallController::moveBall(float deltaTime) {
 void BallController::bounceBallIfCollided() {
 	if (pongCollisionManager->hasCollidedWall()) {
 		bounceBallOfWall();
+
+		if (ball->position.y < -0.95) {
+			ball->position.y = -0.97;
+		}
+		else if (ball->position.y > 0.95) {
+			ball->position.y = 0.93;
+		}
 	}
 	if (pongCollisionManager->hasCollidedPlayer1()) {
 		bounceBallOfPlayer1();
+
+		if (ball->position.x < -0.9) {
+			ball->position.x = -0.88;
+		}
 	}
 	if (pongCollisionManager->hasCollidedPlayer2()) {
 		bounceBallOfPlayer2();
+
+		if (ball->position.x > 0.9) {
+			ball->position.x = 0.88;
+		}
 	}
 }
 
@@ -66,7 +81,7 @@ void BallController::generateNewRandomBallDirection() {
 	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
 	// Generate the direction for the OX axis
-	float angleX = distribution(gen) > 0 ? 1 : -1;
+	int angleX = distribution(gen) > 0 ? 1 : -1;
 
 	// Generate the direction for the OY axis
 	float angleY = distribution(gen);

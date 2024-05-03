@@ -18,12 +18,7 @@ GameEventManager::~GameEventManager() {
 	player1Score = 0;
 }
 
-void GameEventManager::moveBallInBounds() {
-
-}
-
 void GameEventManager::checkForPlayerWin() {
-	std::stringstream ss;
 	if (world->ball->position.x < -0.9) {
 		player2Score++;
 		resetGame();

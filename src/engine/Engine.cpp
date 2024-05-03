@@ -15,7 +15,7 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     createWindow(resX, resY, isFullscreen);
     world = new World();
     playerInputManager = new PlayerInputManager(window, world->player1, world->player2, 10);
-    pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
+    pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball, 0.03);
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 0.5);
 

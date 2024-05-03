@@ -4,7 +4,7 @@
 
 class PongCollisionManager : public CollisionManager {
 	public:
-		PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball);
+		PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball, float overlapError);
 		~PongCollisionManager();
 		bool hasCollidedWall();
 		bool hasCollidedPlayer1();
@@ -16,7 +16,6 @@ class PongCollisionManager : public CollisionManager {
 		Mesh* player1;
 		Mesh* player2;
 		Mesh* ball;
-
 		float ballRadius;
 		float overlapError;
 };

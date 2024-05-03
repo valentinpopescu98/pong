@@ -7,7 +7,6 @@ class GameEventManager {
 	public:
 		GameEventManager(Engine* engine, World* world);
 		~GameEventManager();
-		void moveBallInBounds();
 		void checkForPlayerWin();
 		void setWorld(World* world);
 	private:

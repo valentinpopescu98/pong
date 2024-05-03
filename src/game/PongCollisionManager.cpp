@@ -1,12 +1,12 @@
 #include "PongCollisionManager.h"
 
-PongCollisionManager::PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball)
+PongCollisionManager::PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball, float overlapError)
 	: CollisionManager() {
 	setCollidables(floor, ceiling, player1, player2, ball);
+	this->overlapError = overlapError;
 
 	// set an error to compensate for movement inside the rectangles between processing
 	ballRadius = ball->scale.x / 2;
-	overlapError = 0.03f;
 }
 
 PongCollisionManager::~PongCollisionManager() {
@@ -16,8 +16,8 @@ PongCollisionManager::~PongCollisionManager() {
 	this->player2 = NULL;
 	this->ball = NULL;
 
-	ballRadius = 0;
-	overlapError = 0;
+	this->overlapError = 0;
+	this->ballRadius = 0;
 }
 
 bool PongCollisionManager::hasCollidedWall() {
