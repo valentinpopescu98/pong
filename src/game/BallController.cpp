@@ -24,7 +24,7 @@ BallController::BallController(CollisionManager* collisionManager, Mesh* ball, M
 	float angleY = distribution(gen);
 
 	ballDirection = glm::vec3(angleX, angleY, 0);
-	//ballDirection = glm::vec3(1, 1, 0);
+	ballDirection = glm::vec3(1, 0, 0);
 }
 
 BallController::~BallController() {
@@ -56,21 +56,19 @@ void BallController::bounceBallOfWall() {
 }
 
 void BallController::bounceBallOfPlayer1() {
-	if (ball->position.y > player1->position.y) {
-		ballDirection = glm::vec3(1, 1, 0);
-	} else if (ball->position.y < player1->position.y) {
-		ballDirection = glm::vec3(1, -1, 0);
-	} else {
-		ballDirection = glm::vec3(1, 0, 0);
-	}
+	float paddleRadius = player1->scale.y / 2;
+	float paddleMax = player1->position.y + paddleRadius;
+
+	// normalize paddle scale to (-1, 1): (y - yMin) / (yMax - yMin)
+	float normalizedPos = (ball->position.y - player1->position.y) / (paddleMax - player1->position.y);
+	ballDirection = glm::vec3(1, normalizedPos, 0);
 }
 
 void BallController::bounceBallOfPlayer2() {
-	if (ball->position.y > player2->position.y) {
-		ballDirection = glm::vec3(-1, 1, 0);
-	} else if (ball->position.y < player2->position.y) {
-		ballDirection = glm::vec3(-1, -1, 0);
-	} else {
-		ballDirection = glm::vec3(-1, 0, 0);
-	}
+	float paddleRadius = player2->scale.y / 2;
+	float paddleMax = player2->position.y + paddleRadius;
+
+	// normalize paddle scale to (-1, 1): (y - yMin) / (yMax - yMin)
+	float normalizedPos = (ball->position.y - player2->position.y) / (paddleMax - player2->position.y);
+	ballDirection = glm::vec3(-1, normalizedPos, 0);
 }
