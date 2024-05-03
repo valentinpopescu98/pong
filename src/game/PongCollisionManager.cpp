@@ -1,16 +1,12 @@
 #include "PongCollisionManager.h"
 
-PongCollisionManager::PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball) 
+PongCollisionManager::PongCollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball)
 	: CollisionManager() {
-	this->floor = floor;
-	this->ceiling = ceiling;
-	this->player1 = player1;
-	this->player2 = player2;
-	this->ball = ball;
+	setCollidables(floor, ceiling, player1, player2, ball);
 
 	// set an error to compensate for movement inside the rectangles between processing
 	ballRadius = ball->scale.x / 2;
-	overlapError = 0.03;
+	overlapError = 0.03f;
 }
 
 PongCollisionManager::~PongCollisionManager() {
@@ -35,4 +31,12 @@ bool PongCollisionManager::hasCollidedPlayer1() {
 
 bool PongCollisionManager::hasCollidedPlayer2() {
 	return CollisionManager::hasCircleCollidedAABB(player2->position, player2->scale, ball->position, ballRadius, overlapError);
+}
+
+void PongCollisionManager::setCollidables(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball) {
+	this->floor = floor;
+	this->ceiling = ceiling;
+	this->player1 = player1;
+	this->player2 = player2;
+	this->ball = ball;
 }

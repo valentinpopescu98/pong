@@ -1,13 +1,11 @@
 #include "InputManager.h"
 
-InputManager::InputManager(GLFWwindow* window, World* world) {
+InputManager::InputManager(GLFWwindow* window) {
 	this->window = window;
-	this->world = world;
 }
 
 InputManager::~InputManager() {
 	window = NULL;
-	world = NULL;
 }
 
 void InputManager::treatKeyboardInputs() {

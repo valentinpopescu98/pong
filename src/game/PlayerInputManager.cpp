@@ -1,9 +1,8 @@
 #include "PlayerInputManager.h"
 
-PlayerInputManager::PlayerInputManager(GLFWwindow* window, World* world, float multiplier) 
-	: InputManager(window, world) {
-	this->player1 = world->player1;
-	this->player2 = world->player2;
+PlayerInputManager::PlayerInputManager(GLFWwindow* window, Mesh* player1, Mesh* player2, float multiplier) 
+	: InputManager(window) {
+	setPlayers(player1, player2);
 	this->multiplier = multiplier;
 }
 
@@ -31,4 +30,9 @@ void PlayerInputManager::treatKeyboardInputs(float deltaTime) {
 	else if (player2->position.y > -0.75 && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		player2->position += multiplier * glm::vec3(0, -0.1, 0) * deltaTime;
 	}
+}
+
+void PlayerInputManager::setPlayers(Mesh* player1, Mesh* player2) {
+	this->player1 = player1;
+	this->player2 = player2;
 }

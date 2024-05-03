@@ -10,6 +10,8 @@ class BallController {
 		~BallController();
 		void moveBall(float deltaTime);
 		void bounceBallIfCollided();
+		void generateNewRandomBallDirection();
+		void setBallAndPlayers(Mesh* ball, Mesh* player1, Mesh* player2);
 	private:
 		void bounceBallOfWall();
 		void bounceBallOfPlayer1();

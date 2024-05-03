@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "game/GameEventManager.h"
 
 double Engine::previousTime = 0.0;
 double Engine::elapsedTime = 0.0;
@@ -13,8 +14,9 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
 
     createWindow(resX, resY, isFullscreen);
     world = new World();
-    playerInputManager = new PlayerInputManager(window, world, 10);
+    playerInputManager = new PlayerInputManager(window, world->player1, world->player2, 10);
     pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
+    gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 0.5);
 
     enableVsync(isVsyncOn);
@@ -22,12 +24,30 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
 
 Engine::~Engine() {
     delete ballController;
+    delete gameEventManager;
     delete pongCollisionManager;
     delete playerInputManager;
-    delete world;
+    deleteWorldIfExists();
 
     glfwDestroyWindow(window);
     glfwTerminate();
+}
+
+void Engine::createWorld() {
+    world = new World();
+
+    playerInputManager->setPlayers(world->player1, world->player2);
+    pongCollisionManager->setCollidables(world->floor, world->ceiling, world->player1, world->player2, world->ball);
+    gameEventManager->setWorld(world);
+    ballController->setBallAndPlayers(world->ball, world->player1, world->player2);
+
+    ballController->generateNewRandomBallDirection();
+}
+
+void Engine::deleteWorldIfExists() {
+    if (world) {
+        delete world;
+    }
 }
 
 void Engine::createWindow(int resX, int resY, bool isFullscreen) {
@@ -103,6 +123,7 @@ void Engine::update() {
     ballController->moveBall((float) deltaTime);
     ballController->bounceBallIfCollided();
     playerInputManager->treatKeyboardInputs((float) deltaTime);
+    gameEventManager->checkForPlayerWin();
 
     world->render();
 }

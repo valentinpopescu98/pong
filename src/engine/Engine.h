@@ -8,10 +8,14 @@
 #include "game/BallController.h"
 #include "World.h"
 
+class GameEventManager;
+
 class Engine {
 	public:
 		Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn);
 		~Engine();
+		void createWorld();
+		void deleteWorldIfExists();
 		static void setTimeValues();
 		static void enableVsync(bool isEnabled);
 		void render();
@@ -32,5 +36,6 @@ class Engine {
 		World* world;
 		PlayerInputManager* playerInputManager;
 		PongCollisionManager* pongCollisionManager;
+		GameEventManager* gameEventManager;
 		BallController* ballController;
 };

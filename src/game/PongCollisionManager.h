@@ -9,6 +9,7 @@ class PongCollisionManager : public CollisionManager {
 		bool hasCollidedWall();
 		bool hasCollidedPlayer1();
 		bool hasCollidedPlayer2();
+		void setCollidables(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball);
 	private:
 		Mesh* floor;
 		Mesh* ceiling;
