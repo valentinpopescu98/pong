@@ -4,9 +4,9 @@
 #include <iostream>
 
 #include "game/PlayerInputManager.h"
+#include "game/PongCollisionManager.h"
 #include "game/BallController.h"
 #include "World.h"
-#include "CollisionManager.h"
 
 class Engine {
 	public:
@@ -31,6 +31,6 @@ class Engine {
 		GLFWwindow* window;
 		World* world;
 		PlayerInputManager* playerInputManager;
-		CollisionManager* collisionManager;
+		PongCollisionManager* pongCollisionManager;
 		BallController* ballController;
 };

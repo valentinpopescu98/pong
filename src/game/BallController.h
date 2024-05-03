@@ -2,11 +2,11 @@
 #include <random>
 
 #include "model/Mesh.h"
-#include "engine/CollisionManager.h"
+#include "PongCollisionManager.h"
 
 class BallController {
 	public:
-		BallController(CollisionManager* collisionManager, Mesh* ball, Mesh* player1, Mesh* player2, float speed);
+		BallController(PongCollisionManager* pongCollisionManager, Mesh* ball, Mesh* player1, Mesh* player2, float speed);
 		~BallController();
 		void moveBall(float deltaTime);
 		void bounceBallIfCollided();
@@ -15,7 +15,7 @@ class BallController {
 		void bounceBallOfPlayer1();
 		void bounceBallOfPlayer2();
 		
-		CollisionManager* collisionManager;
+		PongCollisionManager* pongCollisionManager;
 		Mesh* ball;
 		Mesh* player1;
 		Mesh* player2;

@@ -14,15 +14,15 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     createWindow(resX, resY, isFullscreen);
     world = new World();
     playerInputManager = new PlayerInputManager(window, world, 10);
-    collisionManager = new CollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
-    ballController = new BallController(collisionManager, world->ball, world->player1, world->player2, 0.5);
+    pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
+    ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 0.5);
 
     enableVsync(isVsyncOn);
 }
 
 Engine::~Engine() {
     delete ballController;
-    delete collisionManager;
+    delete pongCollisionManager;
     delete playerInputManager;
     delete world;
 

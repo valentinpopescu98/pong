@@ -1,24 +1,9 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include "model/Mesh.h"
+#include <glm/gtc/type_ptr.hpp>
+#include <fstream>
 
 class CollisionManager {
-	public:
-		CollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Mesh* player2, Mesh* ball);
-		~CollisionManager();
-		bool hasCollidedWall();
-		bool hasCollidedPlayer1();
-		bool hasCollidedPlayer2();
-	private:
-		bool hasCollidedMesh(glm::vec3 meshPos, glm::vec3 meshScale, glm::vec3 ballPos, float ballRadius);
-
-		Mesh* floor;
-		Mesh* ceiling;
-		Mesh* player1;
-		Mesh* player2;
-		Mesh* ball;
-		float overlapError;
-		float ballRadius;
+	protected:
+		static bool hasCircleCollidedAABB(glm::vec3 rectanglePos, glm::vec3 rectangleScale, glm::vec3 circlePos,
+			float circleRadius, float overlapError);
 };
