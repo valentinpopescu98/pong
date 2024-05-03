@@ -9,6 +9,7 @@ CollisionManager::CollisionManager(Mesh* floor, Mesh* ceiling, Mesh* player1, Me
 
 	// set an error to compensate for movement inside the rectangles between processing
 	overlapError = 0.03;
+	ballRadius = ball->scale.x / 2;
 }
 
 CollisionManager::~CollisionManager() {
@@ -21,13 +22,17 @@ CollisionManager::~CollisionManager() {
 	overlapError = 0;
 }
 
-bool CollisionManager::hasCollided() {
-	float ballRadius = ball->scale.x / 2;
-
+bool CollisionManager::hasCollidedWall() {
 	return hasCollidedMesh(floor->position, floor->scale, ball->position, ballRadius) ||
-		hasCollidedMesh(ceiling->position, ceiling->scale, ball->position, ballRadius) ||
-		hasCollidedMesh(player1->position, player1->scale, ball->position, ballRadius) ||
-		hasCollidedMesh(player2->position, player2->scale, ball->position, ballRadius);
+		hasCollidedMesh(ceiling->position, ceiling->scale, ball->position, ballRadius);
+}
+
+bool CollisionManager::hasCollidedPlayer1() {
+	return hasCollidedMesh(player1->position, player1->scale, ball->position, ballRadius);
+}
+
+bool CollisionManager::hasCollidedPlayer2() {
+	return hasCollidedMesh(player2->position, player2->scale, ball->position, ballRadius);
 }
 
 bool CollisionManager::hasCollidedMesh(glm::vec3 playerPos, glm::vec3 playerScale, glm::vec3 ballPos, float ballRadius) {

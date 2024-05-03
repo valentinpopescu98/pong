@@ -15,7 +15,7 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     world = new World();
     playerInputManager = new PlayerInputManager(window, world, 10);
     collisionManager = new CollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball);
-    ballController = new BallController(collisionManager, world->ball, 0.5);
+    ballController = new BallController(collisionManager, world->ball, world->player1, world->player2, 0.5);
 
     enableVsync(isVsyncOn);
 }
@@ -101,7 +101,7 @@ void Engine::beforeUpdate() {
 
 void Engine::update() {
     ballController->moveBall((float) deltaTime);
-    ballController->repelBallIfCollided();
+    ballController->bounceBallIfCollided();
     playerInputManager->treatKeyboardInputs((float) deltaTime);
 
     world->render();
