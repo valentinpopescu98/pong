@@ -1,11 +1,12 @@
 #include "BallController.h"
 #include <iostream>
 
-BallController::BallController(PongCollisionManager* pongCollisionManager, Mesh* ball, Mesh* player1, Mesh* player2, float speed) {
+BallController::BallController(PongCollisionManager* pongCollisionManager, Mesh* ball, Mesh* player1, Mesh* player2, 
+	float ballSpeed, float floorScaleY) {
 	this->pongCollisionManager = pongCollisionManager;
-	this->speed = speed;
+	this->ballSpeed = ballSpeed;
 
-	setBallAndPlayers(ball, player1, player2);
+	setMeshesAndRadii(ball, player1, player2, floorScaleY);
 	generateNewRandomBallDirection();
 }
 
@@ -14,11 +15,11 @@ BallController::~BallController() {
 	player2 = NULL;
 	ball = NULL;
 	pongCollisionManager = NULL;
-	speed = 0.0f;
+	ballSpeed = 0.0f;
 }
 
 void BallController::moveBall(float deltaTime) {
-	ball->position += speed * ballDirection * deltaTime;
+	ball->position += ballSpeed * ballDirection * deltaTime;
 }
 
 void BallController::bounceBallIfCollided() {
@@ -26,24 +27,24 @@ void BallController::bounceBallIfCollided() {
 		bounceBallOfWall();
 
 		if (ball->position.y < -0.95) {
-			ball->position.y = -0.97;
+			ball->position.y = -0.95 + ballRadius.y + wallRadius + 0.01;
 		}
 		else if (ball->position.y > 0.95) {
-			ball->position.y = 0.93;
+			ball->position.y = 0.95 - ballRadius.y - wallRadius - 0.01;
 		}
 	}
 	if (pongCollisionManager->hasCollidedPlayer1()) {
 		bounceBallOfPlayer1();
 
 		if (ball->position.x < -0.9) {
-			ball->position.x = -0.88;
+			ball->position.x = -0.9 + ballRadius.x + player1Radius + 0.01;
 		}
 	}
 	if (pongCollisionManager->hasCollidedPlayer2()) {
 		bounceBallOfPlayer2();
 
 		if (ball->position.x > 0.9) {
-			ball->position.x = 0.88;
+			ball->position.x = 0.9 - ballRadius.x - player2Radius - 0.01;
 		}
 	}
 }
@@ -53,20 +54,18 @@ void BallController::bounceBallOfWall() {
 }
 
 void BallController::bounceBallOfPlayer1() {
-	float paddleRadius = player1->scale.y / 2;
-	float paddleMax = player1->position.y + paddleRadius;
+	float player1MaxY = player1->position.y + player1Radius;
 
 	// normalize paddle scale to (-1, 1): (y - yMin) / (yMax - yMin)
-	float normalizedPos = (ball->position.y - player1->position.y) / (paddleMax - player1->position.y);
+	float normalizedPos = (ball->position.y - player1->position.y) / (player1MaxY - player1->position.y);
 	ballDirection = glm::vec3(1, normalizedPos, 0);
 }
 
 void BallController::bounceBallOfPlayer2() {
-	float paddleRadius = player2->scale.y / 2;
-	float paddleMax = player2->position.y + paddleRadius;
+	float player2MaxY = player2->position.y + player2Radius;
 
 	// normalize paddle scale to (-1, 1): (y - yMin) / (yMax - yMin)
-	float normalizedPos = (ball->position.y - player2->position.y) / (paddleMax - player2->position.y);
+	float normalizedPos = (ball->position.y - player2->position.y) / (player2MaxY - player2->position.y);
 	ballDirection = glm::vec3(-1, normalizedPos, 0);
 }
 
@@ -89,8 +88,16 @@ void BallController::generateNewRandomBallDirection() {
 	ballDirection = glm::vec3(angleX, angleY, 0);
 }
 
-void BallController::setBallAndPlayers(Mesh* ball, Mesh* player1, Mesh* player2) {
+void BallController::setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, float floorScaleY) {
+	// meshes
 	this->ball = ball;
 	this->player1 = player1;
 	this->player2 = player2;
+
+	// radii
+	ballRadius = glm::vec3(ball->scale.x / 2, ball->scale.y / 2, 0);
+	player1Radius = player1->scale.y / 2;
+	player2Radius = player2->scale.y / 2;
+	// it is considered both floor and ceiling have the same scale
+	this->wallRadius = floorScaleY / 2;
 }

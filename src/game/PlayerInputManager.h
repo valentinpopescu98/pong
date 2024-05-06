@@ -1,15 +1,16 @@
 #pragma once
+#include <glm/gtc/type_ptr.hpp>
+
 #include "engine/InputManager.h"
-#include "model/Mesh.h"
 
 class PlayerInputManager : public InputManager {
 	public:
-		PlayerInputManager(GLFWwindow* window, Mesh* player1, Mesh* player2, float multiplier);
+		PlayerInputManager(GLFWwindow* window, glm::vec3* player1Pos, glm::vec3* player2Pos, float multiplier);
 		~PlayerInputManager();
 		void treatKeyboardInputs(float deltaTime);
-		void setPlayers(Mesh* player1, Mesh* player2);
+		void setPlayersPositions(glm::vec3* player1Pos, glm::vec3* player2Pos);
 	private:
-		Mesh* player1;
-		Mesh* player2;
+		glm::vec3* player1Pos;
+		glm::vec3* player2Pos;
 		float multiplier;
 };

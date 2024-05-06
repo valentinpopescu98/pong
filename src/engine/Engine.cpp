@@ -14,10 +14,12 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
 
     createWindow(resX, resY, isFullscreen);
     world = new World();
-    playerInputManager = new PlayerInputManager(window, world->player1, world->player2, 10);
-    pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball, 0.03);
+
+    playerInputManager = new PlayerInputManager(window, &world->player1->position, &world->player2->position, 10);
+    pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball, 0.03f);
     gameEventManager = new GameEventManager(this, world);
-    ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 0.5);
+    ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 
+        0.5, world->floor->scale.y);
 
     enableVsync(isVsyncOn);
 }
@@ -36,10 +38,10 @@ Engine::~Engine() {
 void Engine::createWorld() {
     world = new World();
 
-    playerInputManager->setPlayers(world->player1, world->player2);
+    playerInputManager->setPlayersPositions(&world->player1->position, &world->player2->position);
     pongCollisionManager->setCollidables(world->floor, world->ceiling, world->player1, world->player2, world->ball);
     gameEventManager->setWorld(world);
-    ballController->setBallAndPlayers(world->ball, world->player1, world->player2);
+    ballController->setMeshesAndRadii(world->ball, world->player1, world->player2, world->floor->scale.y / 2);
 
     ballController->generateNewRandomBallDirection();
 }

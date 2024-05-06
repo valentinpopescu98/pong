@@ -4,7 +4,7 @@
 
 GameEventManager::GameEventManager(Engine* engine, World* world) {
 	this->engine = engine;
-	this->world = world;
+	setWorld(world);
 
 	player1Score = 0;
 	player2Score = 0;
