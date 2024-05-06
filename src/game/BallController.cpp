@@ -1,12 +1,12 @@
 #include "BallController.h"
 #include <iostream>
 
-BallController::BallController(PongCollisionManager* pongCollisionManager, Mesh* ball, Mesh* player1, Mesh* player2, 
-	float ballSpeed, float floorScaleY) {
+BallController::BallController(PongCollisionManager* pongCollisionManager, 
+	Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling, float ballSpeed) {
 	this->pongCollisionManager = pongCollisionManager;
 	this->ballSpeed = ballSpeed;
 
-	setMeshesAndRadii(ball, player1, player2, floorScaleY);
+	setMeshesAndRadii(ball, player1, player2, floor, ceiling);
 	generateNewRandomBallDirection();
 }
 
@@ -23,9 +23,11 @@ void BallController::moveBall(float deltaTime) {
 }
 
 void BallController::bounceBallIfCollided() {
-	if (pongCollisionManager->hasCollidedWall()) {
+	if (pongCollisionManager->hasBallCollidedMesh(floor) || pongCollisionManager->hasBallCollidedMesh(ceiling)) {
 		bounceBallOfWall();
 
+		// when ball glitches and goes beyond walls:
+		// new position = wall center + wall radius + ball radius + small error (so collision doesn't happen)
 		if (ball->position.y < -0.95) {
 			ball->position.y = -0.95 + ballRadius.y + wallRadius + 0.01;
 		}
@@ -33,16 +35,20 @@ void BallController::bounceBallIfCollided() {
 			ball->position.y = 0.95 - ballRadius.y - wallRadius - 0.01;
 		}
 	}
-	if (pongCollisionManager->hasCollidedPlayer1()) {
+	if (pongCollisionManager->hasBallCollidedMesh(player1)) {
 		bounceBallOfPlayer1();
 
+		// when ball glitches and goes beyond player1:
+		// new position = paddle center + paddle radius + ball radius + small error (so collision doesn't happen)
 		if (ball->position.x < -0.9) {
 			ball->position.x = -0.9 + ballRadius.x + player1Radius + 0.01;
 		}
 	}
-	if (pongCollisionManager->hasCollidedPlayer2()) {
+	if (pongCollisionManager->hasBallCollidedMesh(player2)) {
 		bounceBallOfPlayer2();
 
+		// when ball glitches and goes beyond player2:
+		// new position = paddle center + paddle radius + ball radius + small error (so collision doesn't happen)
 		if (ball->position.x > 0.9) {
 			ball->position.x = 0.9 - ballRadius.x - player2Radius - 0.01;
 		}
@@ -88,16 +94,18 @@ void BallController::generateNewRandomBallDirection() {
 	ballDirection = glm::vec3(angleX, angleY, 0);
 }
 
-void BallController::setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, float floorScaleY) {
+void BallController::setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling) {
 	// meshes
 	this->ball = ball;
 	this->player1 = player1;
 	this->player2 = player2;
+	this->floor = floor;
+	this->ceiling = ceiling;
 
 	// radii
 	ballRadius = glm::vec3(ball->scale.x / 2, ball->scale.y / 2, 0);
 	player1Radius = player1->scale.y / 2;
 	player2Radius = player2->scale.y / 2;
-	// it is considered both floor and ceiling have the same scale
-	this->wallRadius = floorScaleY / 2;
+	// it is considered that both floor and ceiling have the same scale
+	this->wallRadius = floor->scale.y / 2;
 }

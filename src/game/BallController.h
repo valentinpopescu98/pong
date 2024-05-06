@@ -6,13 +6,13 @@
 
 class BallController {
 	public:
-		BallController(PongCollisionManager* pongCollisionManager, Mesh* ball, Mesh* player1, Mesh* player2, float ballSpeed, 
-			float floorScaleY);
+		BallController(PongCollisionManager* pongCollisionManager,
+			Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling, float ballSpeed);
 		~BallController();
 		void moveBall(float deltaTime);
 		void bounceBallIfCollided();
 		void generateNewRandomBallDirection();
-		void setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, float floorScaleY);
+		void setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling);
 	private:
 		void bounceBallOfWall();
 		void bounceBallOfPlayer1();
@@ -22,6 +22,8 @@ class BallController {
 		Mesh* ball;
 		Mesh* player1;
 		Mesh* player2;
+		Mesh* floor;
+		Mesh* ceiling;
 		glm::vec3 ballDirection;
 		float ballSpeed;
 

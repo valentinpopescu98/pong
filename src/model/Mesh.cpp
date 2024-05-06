@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
 Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
-    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color) {
+    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color, bool isCollidable) {
     this->vertices = vertices;
     this->indices = indices;
 
@@ -9,6 +9,8 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
     this->rotation = rotation;
     this->scale = scale;
     this->color = color;
+
+    this->isCollidable = isCollidable;
 
     // Create buffers
     vao = new VAO(); // Create VAO and bind it
@@ -25,12 +27,14 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
 }
 
 Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices, Mesh& parent,
-    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color)
-    : Mesh(vertices, indices, position, rotation, scale, color) {
+    glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color, bool isCollidable)
+    : Mesh(vertices, indices, position, rotation, scale, color, isCollidable) {
 
     this->position += parent.position;
     this->rotation += parent.rotation;
     this->scale *= parent.scale;
+
+    this->isCollidable = isCollidable;
 }
 
 Mesh::~Mesh() {
