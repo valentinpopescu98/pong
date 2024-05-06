@@ -15,11 +15,11 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     createWindow(resX, resY, isFullscreen);
     world = new World();
 
-    playerInputManager = new PlayerInputManager(window, &world->player1->position, &world->player2->position, 10);
+    playerInputManager = new PlayerInputManager(window, &world->player1->position, &world->player2->position, 17);
     pongCollisionManager = new PongCollisionManager(world->floor, world->ceiling, world->player1, world->player2, world->ball, 0.03f);
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, world->ball, world->player1, world->player2, 
-        0.5, world->floor->scale.y);
+        0.8, world->floor->scale.y);
 
     enableVsync(isVsyncOn);
 }
