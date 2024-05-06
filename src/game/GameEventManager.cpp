@@ -19,10 +19,10 @@ GameEventManager::~GameEventManager() {
 }
 
 void GameEventManager::checkForPlayerWin() {
-	if (world->ball->position.x < -0.9) {
+	if (world->ball->position.x < world->player1->position.x) {
 		player2Score++;
 		resetGame();
-	} else if (world->ball->position.x > 0.9) {
+	} else if (world->ball->position.x > world->player2->position.x) {
 		player1Score++;
 		resetGame();
 	}

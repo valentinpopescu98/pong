@@ -28,30 +28,18 @@ void BallController::bounceBallIfCollided() {
 
 		// when ball glitches and goes beyond walls:
 		// new position = wall center + wall radius + ball radius + small error (so collision doesn't happen)
-		if (ball->position.y < -0.95) {
-			ball->position.y = -0.95 + ballRadius.y + wallRadius + 0.01;
+		if (ball->position.y < floor->position.y + wallRadius + ballRadius.y) {
+			ball->position.y = floor->position.y + wallRadius + ballRadius.y + 0.025;
 		}
-		else if (ball->position.y > 0.95) {
-			ball->position.y = 0.95 - ballRadius.y - wallRadius - 0.01;
+		else if (ball->position.y > ceiling->position.y - wallRadius - ballRadius.y) {
+			ball->position.y = ceiling->position.y - wallRadius - ballRadius.y - 0.025;
 		}
 	}
 	if (pongCollisionManager->hasBallCollidedMesh(player1)) {
 		bounceBallOfPlayer1();
-
-		// when ball glitches and goes beyond player1:
-		// new position = paddle center + paddle radius + ball radius + small error (so collision doesn't happen)
-		if (ball->position.x < -0.9) {
-			ball->position.x = -0.9 + ballRadius.x + player1Radius + 0.01;
-		}
 	}
 	if (pongCollisionManager->hasBallCollidedMesh(player2)) {
 		bounceBallOfPlayer2();
-
-		// when ball glitches and goes beyond player2:
-		// new position = paddle center + paddle radius + ball radius + small error (so collision doesn't happen)
-		if (ball->position.x > 0.9) {
-			ball->position.x = 0.9 - ballRadius.x - player2Radius - 0.01;
-		}
 	}
 }
 

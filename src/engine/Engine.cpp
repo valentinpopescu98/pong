@@ -19,7 +19,7 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     pongCollisionManager = new PongCollisionManager(world->ball, 0.03f);
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, 
-        world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8);
+        world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8f);
 
     enableVsync(isVsyncOn);
 }

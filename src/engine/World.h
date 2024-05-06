@@ -10,13 +10,11 @@ class World {
 		~World();
 		void render();
 
-		Mesh* floor;
-		Mesh* ceiling;
-		Mesh* player1;
-		Mesh* player2;
-		Mesh* ball;
+		Mesh *floor, *ceiling;
+		std::vector<Mesh*> middle;
+		Mesh *player1, *player2;
+		Mesh *ball;
 	private:
 		//std::vector<Mesh> environment;
 		Shader* programShader;
 };
-

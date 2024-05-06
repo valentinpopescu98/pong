@@ -19,11 +19,9 @@ class BallController {
 		void bounceBallOfPlayer2();
 		
 		PongCollisionManager* pongCollisionManager;
-		Mesh* ball;
-		Mesh* player1;
-		Mesh* player2;
-		Mesh* floor;
-		Mesh* ceiling;
+		Mesh *ball;
+		Mesh *player1, *player2;
+		Mesh *floor, *ceiling;
 		glm::vec3 ballDirection;
 		float ballSpeed;
 
