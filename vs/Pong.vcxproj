@@ -24,6 +24,7 @@
     <ClCompile Include="..\src\engine\Engine.cpp" />
     <ClCompile Include="..\src\engine\InputManager.cpp" />
     <ClCompile Include="..\src\engine\Shader.cpp" />
+    <ClCompile Include="..\src\engine\TextRenderer.cpp" />
     <ClCompile Include="..\src\engine\World.cpp" />
     <ClCompile Include="..\src\game\BallController.cpp" />
     <ClCompile Include="..\src\game\GameEventManager.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\src\engine\Engine.h" />
     <ClInclude Include="..\src\engine\InputManager.h" />
     <ClInclude Include="..\src\engine\Shader.h" />
+    <ClInclude Include="..\src\engine\TextRenderer.h" />
     <ClInclude Include="..\src\engine\World.h" />
     <ClInclude Include="..\src\game\BallController.h" />
     <ClInclude Include="..\src\game\GameEventManager.h" />

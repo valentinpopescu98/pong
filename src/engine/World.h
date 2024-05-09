@@ -9,6 +9,7 @@ class World {
 		World();
 		~World();
 		void render();
+		GLuint getShaderId();
 
 		Mesh *floor, *ceiling;
 		std::vector<Mesh*> middle;
@@ -16,5 +17,5 @@ class World {
 		Mesh *ball;
 	private:
 		//std::vector<Mesh> environment;
-		Shader* programShader;
+		Shader *programShader;
 };

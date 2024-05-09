@@ -3,6 +3,7 @@
 World::World() {
 	// Create shaders
 	programShader = new Shader("src/shader/vert.glsl", "src/shader/frag.glsl");
+	programShader->use();
 
 	middle.resize(10, nullptr);
 	for (size_t i = 0; i < middle.size(); i++) {
@@ -21,8 +22,9 @@ World::World() {
 		glm::vec3(0.9, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.05, 0.3, 0), glm::vec3(0, 0, 1), true);
 
 	Utils::buildCircle(1, 24);
+	// color = vec3(0), hence the ball will be colored with vertex data
 	ball = new Mesh(Utils::circleVertices, Utils::circleIndices,
-		glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.04, 0.05, 0), glm::vec3(0, 1, 0), true);
+		glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0.04, 0.05, 0), glm::vec3(0, 0, 0), true);
 }
 
 World::~World() {
@@ -34,8 +36,6 @@ World::~World() {
 }
 
 void World::render() {
-	programShader->use();
-
 	for (Mesh* barrier : middle) {
 		barrier->render(programShader->id);
 	}
@@ -44,4 +44,8 @@ void World::render() {
 	player1->render(programShader->id);
 	player2->render(programShader->id);
 	ball->render(programShader->id);
+}
+
+GLuint World::getShaderId() {
+	return programShader->id;
 }

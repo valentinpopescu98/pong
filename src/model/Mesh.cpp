@@ -19,7 +19,8 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
 
     vao->linkVBO(vbo, 0, sizeof(VertexStruct), (void*)0); // Link VBOs to location 0
     vao->linkVBO(vbo, 1, sizeof(VertexStruct), (void*)offsetof(VertexStruct, normals)); // Link VBOs to location 1
-    vao->linkVBO(vbo, 2, sizeof(VertexStruct), (void*)offsetof(VertexStruct, colors)); // Link VBOs to location 3
+    vao->linkVBO(vbo, 2, sizeof(VertexStruct), (void*)offsetof(VertexStruct, textCoords)); // Link VBOs to location 2
+    vao->linkVBO(vbo, 3, sizeof(VertexStruct), (void*)offsetof(VertexStruct, colors)); // Link VBOs to location 3
 
     vao->unbind(); // Unbind VAO
     vbo->unbind(); // Unbind VBO
@@ -58,15 +59,6 @@ void Mesh::render(GLuint shaderId) {
 
     // Draw mesh
     vao->bind();
-    //for (GLuint i = 0; i < textures.size(); i++)
-    //{
-    //    texture.Bind(textureDimension, i + firstTextureID); // Bind proper texture to the GPU
-    //}
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     vao->unbind();
-    //for (GLuint i = 0; i < textures.size(); i++)
-    //{
-    //    texture.Unbind(); // Unbind texture
-    //}
-    //glActiveTexture(GL_TEXTURE0); // Reset to default texture
 }

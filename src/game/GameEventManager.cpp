@@ -1,6 +1,5 @@
 #include "GameEventManager.h"
 #include "engine/Engine.h"
-#include <sstream>
 
 GameEventManager::GameEventManager(Engine* engine, World* world) {
 	this->engine = engine;

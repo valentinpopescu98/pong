@@ -1,9 +1,13 @@
 #include "Engine.h"
+#include "TextRenderer.h"
 #include "game/GameEventManager.h"
 
 double Engine::previousTime = 0.0;
 double Engine::elapsedTime = 0.0;
 double Engine::deltaTime = 0.0;
+
+float Engine::windowWidth = 0.0f;
+float Engine::windowHeight = 0.0f;
 
 Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     glfwInit();
@@ -20,11 +24,13 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, 
         world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8f);
+    textRenderer = new TextRenderer(world->getShaderId(), "arial.ttf", 48);
 
     enableVsync(isVsyncOn);
 }
 
 Engine::~Engine() {
+    delete textRenderer;
     delete ballController;
     delete gameEventManager;
     delete pongCollisionManager;
@@ -41,6 +47,7 @@ void Engine::createWorld() {
     playerInputManager->setPlayersPositions(&world->player1->position, &world->player2->position);
     pongCollisionManager->setCollidables(world->ball);
     gameEventManager->setWorld(world);
+    textRenderer->setShaderId(world->getShaderId());
     ballController->setMeshesAndRadii(world->ball, world->player1, world->player2, world->floor, world->ceiling);
 
     ballController->generateNewRandomBallDirection();
@@ -102,7 +109,9 @@ void Engine::enableVsync(bool isEnabled) {
 }
 
 void Engine::frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
+    windowWidth = width;
+    windowHeight = height;
+    glViewport(0, 0, windowWidth, windowHeight);
 }
 
 void Engine::render() {
@@ -128,6 +137,11 @@ void Engine::update() {
     gameEventManager->checkForPlayerWin();
 
     world->render();
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    textRenderer->renderText("salut", glm::vec2(-0.9, 0), glm::vec2(10, 10), glm::vec3(1, 1, 1));
+    glDisable(GL_BLEND);
 }
 
 void Engine::afterUpdate() {

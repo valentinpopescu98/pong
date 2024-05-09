@@ -43,6 +43,9 @@
     <ClCompile Include="..\src\game\PongCollisionManager.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\engine\TextRenderer.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\model\EBO.h">
@@ -84,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="..\src\game\PongCollisionManager.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\TextRenderer.h">
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

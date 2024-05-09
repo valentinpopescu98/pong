@@ -2,11 +2,11 @@
 
 // Data for a quad
 std::vector<VertexStruct> Utils::quadVertices = {
-	//	           COORDS		          NORMALS              COLORS
-	{glm::vec3(-0.5, -0.5, 0),  glm::vec3(-1, -1, 0), glm::vec3(0, 1, 0)}, // bottom left
-	{glm::vec3( 0.5, -0.5, 0),  glm::vec3( 1, -1, 0), glm::vec3(1, 1, 1)}, // bottom right
-	{glm::vec3( 0.5,  0.5, 0),  glm::vec3( 1,  1, 0), glm::vec3(1, 1, 1)}, // top right
-	{glm::vec3(-0.5,  0.5, 0),  glm::vec3(-1,  1, 1), glm::vec3(0, 1, 0)}  // top left
+	//	           COORDS		          NORMALS       TEXT COORDS        COLORS
+	{glm::vec3(-0.5, -0.5, 0),  glm::vec3(-1, -1, 0), glm::vec2(0, 0), glm::vec3(0, 1, 0)}, // bottom left
+	{glm::vec3( 0.5, -0.5, 0),  glm::vec3( 1, -1, 0), glm::vec2(1, 0), glm::vec3(1, 1, 1)}, // bottom right
+	{glm::vec3( 0.5,  0.5, 0),  glm::vec3( 1,  1, 0), glm::vec2(1, 1), glm::vec3(1, 1, 1)}, // top right
+	{glm::vec3(-0.5,  0.5, 0),  glm::vec3(-1,  1, 1), glm::vec2(0, 1), glm::vec3(0, 1, 0)}  // top left
 };
 
 std::vector<GLuint> Utils::quadIndices {
@@ -34,22 +34,8 @@ std::string Utils::GetFileContents(const char* filePath) {
 	throw(errno + " ERROR: Could not open file.");
 }
 
-void Utils::sendMatrix4x4Uniform(GLuint shaderID, const char* uniform, glm::mat4 matrix)
-{
-	GLuint location = glGetUniformLocation(shaderID, uniform); // Create uniform variable
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)); // Set matrix value for the uniform
-}
-
-void Utils::send3fUniform(GLuint shaderID, const char* uniform, glm::vec3 values)
-{
-	GLuint location = glGetUniformLocation(shaderID, uniform); // Create uniform variable
-	glUniform3f(location, values.x, values.y, values.z); // Set values for the uniform
-}
-
-void Utils::buildCircle(float radius, int vCount)
-{
+void Utils::buildCircle(float radius, int vCount) {
 	float angle = 360.0f / vCount;
-
 	int triangleCount = vCount - 2;
 
 	std::vector<glm::vec3> temp;
@@ -59,9 +45,9 @@ void Utils::buildCircle(float radius, int vCount)
 		float currentAngle = angle * i;
 		float x = radius * cos(glm::radians(currentAngle));
 		float y = radius * sin(glm::radians(currentAngle));
-		float z = 0.0f;
 
-		circleVertices.push_back({ glm::vec3(x, y, z), glm::vec3(x, y, z), glm::vec3(x, y, z) });
+		circleVertices.push_back({ glm::vec3(x, y, 0), glm::vec3(0, 0, 0),
+			glm::vec2(0.5f + 0.5f * std::cos(angle), 0.5f + 0.5f * std::sin(angle)), glm::vec3(y - x, y, x - y) });
 	}
 
 	// push indexes of each triangle points
@@ -70,5 +56,32 @@ void Utils::buildCircle(float radius, int vCount)
 		circleIndices.push_back(0);
 		circleIndices.push_back(i + 1);
 		circleIndices.push_back(i + 2);
+	}
+}
+
+void Utils::sendMatrix4x4Uniform(GLuint shaderId, const char* uniform, glm::mat4 matrix)
+{
+	GLuint location = glGetUniformLocation(shaderId, uniform); // Create uniform variable
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)); // Set matrix value for the uniform
+	checkForErrors();
+}
+
+void Utils::send3fUniform(GLuint shaderId, const char* uniform, glm::vec3 values)
+{
+	GLuint location = glGetUniformLocation(shaderId, uniform); // Create uniform variable
+	glUniform3f(location, values.x, values.y, values.z); // Set values for the uniform
+	checkForErrors();
+}
+
+void Utils::send1iUniform(GLuint shaderId, const char* uniform, int value) {
+	GLuint location = glGetUniformLocation(shaderId, uniform); // Create uniform variable
+	glUniform1i(location, value); // Set value for the uniform
+	checkForErrors();
+}
+
+void Utils::checkForErrors() {
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR) {
+		std::cerr << error << std::endl;
 	}
 }

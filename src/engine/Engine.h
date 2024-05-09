@@ -6,8 +6,10 @@
 #include "game/PlayerInputManager.h"
 #include "game/PongCollisionManager.h"
 #include "game/BallController.h"
+#include "TextRenderer.h"
 #include "World.h"
 
+class TextRenderer;
 class GameEventManager;
 
 class Engine {
@@ -23,6 +25,9 @@ class Engine {
 		static double previousTime;
 		static double elapsedTime;
 		static double deltaTime;
+
+		static float windowWidth;
+		static float windowHeight;
 	private:
 		static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
 		void createWindow(int resX, int resY, bool isFullscreen);
@@ -38,4 +43,5 @@ class Engine {
 		PongCollisionManager* pongCollisionManager;
 		GameEventManager* gameEventManager;
 		BallController* ballController;
+		TextRenderer* textRenderer;
 };
