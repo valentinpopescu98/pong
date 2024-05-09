@@ -19,15 +19,7 @@ TextRenderer::TextRenderer(GLuint shaderId, const char* fontPath, int fontSize) 
 
     FT_Set_Pixel_Sizes(face, 0, fontSize);
 
-    // Generate OpenGL texture for each character
-    for (unsigned char c = 0; c < 128; c++) {
-        // Load character bitmap and create texture
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
-            continue;
-        }
-
-        createTexture(face->glyph->bitmap.buffer, face->glyph->bitmap.width, face->glyph->bitmap.rows, c);
-    }
+    createTextures(face->glyph->bitmap.buffer, face->glyph->bitmap.width, face->glyph->bitmap.rows);
 }
 
 TextRenderer::~TextRenderer() {
@@ -46,7 +38,6 @@ TextRenderer::~TextRenderer() {
 void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 scale, glm::vec3 color) {
     Utils::send1iUniform(shaderId, "useTexture", 1);
 
-    std::vector<Mesh*> characters;
     characters.resize(text.size(), nullptr);
 
     // horizontal offset
@@ -64,6 +55,8 @@ void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 
             continue;
         }
 
+        Utils::send1iUniform(shaderId, "text", textures[c]);
+
         // Calculate position and size of quad
         float charOffset = pixelToNormalized(i * fontSize, Engine::windowWidth);
         characters[i] = new Mesh(Utils::quadVertices, Utils::quadIndices,
@@ -71,11 +64,12 @@ void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 
             glm::vec3(0, 0, 0), glm::vec3(scale.x, scale.y, 0), color, false);
 
         // Bind texture and render quad for character
-        GLuint texture = textures[c];
-        glBindTexture(GL_TEXTURE_2D, texture);
+        glBindTexture(GL_TEXTURE_2D, textures[c]);
 
         // Render textured quad using shaders and VBOs
         characters[i]->render(shaderId);
+
+        delete characters[i];
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glActiveTexture(GL_TEXTURE0);
@@ -84,28 +78,29 @@ void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 
     Utils::send1iUniform(shaderId, "useTexture", 0);
 }
 
-void TextRenderer::createTexture(const unsigned char* buffer, int width, int height, GLchar character) {
-    GLuint texture = character;
-    glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0 + character);
+void TextRenderer::createTextures(const unsigned char* buffer, int width, int height) {
+    // Generate OpenGL texture for each character
+    for (unsigned char c = 0; c < 128; c++) {
+        // Load character bitmap and create texture
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+            continue;
+        }
 
-    Utils::send1iUniform(shaderId, "text", 1);
+        glGenTextures(1, &textures[c]);
+        glActiveTexture(GL_TEXTURE0 + c);
+        glBindTexture(GL_TEXTURE_2D, textures[c]);
 
-    glBindTexture(GL_TEXTURE_2D, texture);
+        // Set texture parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // Upload bitmap data to texture
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, buffer);
 
-    // Upload bitmap data to texture
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, buffer);
-
-    // Add texture to characterTextures map
-    textures[character] = texture;
-
-    glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 // pixel position in normalized in (-1, 1) interval for model matrix
@@ -113,8 +108,4 @@ void TextRenderer::createTexture(const unsigned char* buffer, int width, int hei
 // viewport can be either width or height, depending on which axis the normalization is applied to
 float TextRenderer::pixelToNormalized(float pixelPos, float viewportSize) {
     return 2 * pixelPos / viewportSize;
-}
-
-void TextRenderer::setShaderId(GLuint shaderId) {
-    this->shaderId = shaderId;
 }

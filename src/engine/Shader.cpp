@@ -42,11 +42,11 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
 }
 
 Shader::~Shader() {
+	glUseProgram(0); // Stop using shader
 	glDeleteProgram(id);
 }
 
-void Shader::use()
-{
+void Shader::use() {
 	glUseProgram(id); // Use shader
 }
 

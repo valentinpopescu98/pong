@@ -17,14 +17,18 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     createWindow(resX, resY, isFullscreen);
-    world = new World();
+
+    // Create shaders
+    programShader = new Shader("src/shader/vert.glsl", "src/shader/frag.glsl");
+
+    world = new World(programShader->id);
 
     playerInputManager = new PlayerInputManager(window, &world->player1->position, &world->player2->position, 17);
     pongCollisionManager = new PongCollisionManager(world->ball, 0.03f);
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, 
         world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8f);
-    textRenderer = new TextRenderer(world->getShaderId(), "arial.ttf", 48);
+    textRenderer = new TextRenderer(programShader->id, "arial.ttf", 48);
 
     enableVsync(isVsyncOn);
 }
@@ -36,18 +40,18 @@ Engine::~Engine() {
     delete pongCollisionManager;
     delete playerInputManager;
     deleteWorldIfExists();
+    delete programShader;
 
     glfwDestroyWindow(window);
     glfwTerminate();
 }
 
 void Engine::createWorld() {
-    world = new World();
+    world = new World(programShader->id);
 
     playerInputManager->setPlayersPositions(&world->player1->position, &world->player2->position);
     pongCollisionManager->setCollidables(world->ball);
     gameEventManager->setWorld(world);
-    textRenderer->setShaderId(world->getShaderId());
     ballController->setMeshesAndRadii(world->ball, world->player1, world->player2, world->floor, world->ceiling);
 
     ballController->generateNewRandomBallDirection();
@@ -136,11 +140,13 @@ void Engine::update() {
     playerInputManager->treatKeyboardInputs((float) deltaTime);
     gameEventManager->checkForPlayerWin();
 
+    programShader->use();
+
     world->render();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textRenderer->renderText("salut", glm::vec2(-0.9, 0), glm::vec2(10, 10), glm::vec3(1, 1, 1));
+    textRenderer->renderText("salut", glm::vec2(0, 0), glm::vec2(10, 10), glm::vec3(1, 1, 1));
     glDisable(GL_BLEND);
 }
 

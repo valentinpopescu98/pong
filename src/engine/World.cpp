@@ -1,9 +1,7 @@
 #include "World.h"
 
-World::World() {
-	// Create shaders
-	programShader = new Shader("src/shader/vert.glsl", "src/shader/frag.glsl");
-	programShader->use();
+World::World(GLuint shaderId) {
+	this->shaderId = shaderId;
 
 	middle.resize(10, nullptr);
 	for (size_t i = 0; i < middle.size(); i++) {
@@ -32,20 +30,15 @@ World::~World() {
 	for (Mesh* barrier : middle) {
 		delete barrier;
 	}
-	delete programShader;
 }
 
 void World::render() {
 	for (Mesh* barrier : middle) {
-		barrier->render(programShader->id);
+		barrier->render(shaderId);
 	}
-	floor->render(programShader->id);
-	ceiling->render(programShader->id);
-	player1->render(programShader->id);
-	player2->render(programShader->id);
-	ball->render(programShader->id);
-}
-
-GLuint World::getShaderId() {
-	return programShader->id;
+	floor->render(shaderId);
+	ceiling->render(shaderId);
+	player1->render(shaderId);
+	player2->render(shaderId);
+	ball->render(shaderId);
 }

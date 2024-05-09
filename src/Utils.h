@@ -25,6 +25,6 @@ class Utils {
 		static std::vector<VertexStruct> circleVertices;
 		static std::vector<GLuint> quadIndices;
 		static std::vector<GLuint> circleIndices;
-		static void checkForErrors();
 	private:
+		static void checkForErrors();
 };

@@ -38,6 +38,7 @@ class Engine {
 		void afterUpdate();
 
 		GLFWwindow* window;
+		Shader* programShader;
 		World* world;
 		PlayerInputManager* playerInputManager;
 		PongCollisionManager* pongCollisionManager;

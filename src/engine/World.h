@@ -6,7 +6,7 @@
 
 class World {
 	public:
-		World();
+		World(GLuint shaderId);
 		~World();
 		void render();
 		GLuint getShaderId();
@@ -16,6 +16,5 @@ class World {
 		Mesh *player1, *player2;
 		Mesh *ball;
 	private:
-		//std::vector<Mesh> environment;
-		Shader *programShader;
+		GLuint shaderId;
 };
