@@ -26,8 +26,8 @@ class Engine {
 		static double elapsedTime;
 		static double deltaTime;
 
-		static float windowWidth;
-		static float windowHeight;
+		static int resX;
+		static int resY;
 	private:
 		static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
 		void createWindow(int resX, int resY, bool isFullscreen);

@@ -6,8 +6,8 @@ double Engine::previousTime = 0.0;
 double Engine::elapsedTime = 0.0;
 double Engine::deltaTime = 0.0;
 
-float Engine::windowWidth = 0.0f;
-float Engine::windowHeight = 0.0f;
+int Engine::resX = 0;
+int Engine::resY = 0;
 
 Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     glfwInit();
@@ -64,6 +64,9 @@ void Engine::deleteWorldIfExists() {
 }
 
 void Engine::createWindow(int resX, int resY, bool isFullscreen) {
+    this->resX = resX;
+    this->resY = resY;
+
     GLFWmonitor* primaryMonitor = isFullscreen ? glfwGetPrimaryMonitor() : NULL;
     window = glfwCreateWindow(resX, resY, "Pong", primaryMonitor, NULL);
 
@@ -113,9 +116,7 @@ void Engine::enableVsync(bool isEnabled) {
 }
 
 void Engine::frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
-    windowWidth = width;
-    windowHeight = height;
-    glViewport(0, 0, windowWidth, windowHeight);
+    glViewport(0, 0, resX, resY);
 }
 
 void Engine::render() {
@@ -146,7 +147,7 @@ void Engine::update() {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textRenderer->renderText("salut", glm::vec2(0, 0), glm::vec2(10, 10), glm::vec3(1, 1, 1));
+    textRenderer->renderText("a", glm::vec2(0, 0), glm::vec2(0.4, 0.4), glm::vec3(1, 1, 1));
     glDisable(GL_BLEND);
 }
 

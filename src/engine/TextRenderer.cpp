@@ -36,17 +36,21 @@ TextRenderer::~TextRenderer() {
 
 // Function to render text using FreeType and OpenGL
 void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 scale, glm::vec3 color) {
+    if (text == "") {
+        return;
+    }
+
     Utils::send1iUniform(shaderId, "useTexture", 1);
 
     characters.resize(text.size(), nullptr);
 
     // horizontal offset
-    float hSpacingOffset = pixelToNormalized(5, Engine::windowWidth);
+    float hSpacingOffset = pixelToNormalized(5, Engine::resX);
     for (int i = 0; i < text.size(); i++) {
-        char c = text[i];
+        unsigned char c = text[i];
 
         // only ASCII characters are supported
-        if (static_cast<unsigned char>(c) > 127) {
+        if (c > 127) {
             return;
         }
 
@@ -58,18 +62,22 @@ void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 
         Utils::send1iUniform(shaderId, "text", textures[c]);
 
         // Calculate position and size of quad
-        float charOffset = pixelToNormalized(i * fontSize, Engine::windowWidth);
-        characters[i] = new Mesh(Utils::quadVertices, Utils::quadIndices,
-            glm::vec3(pos.x + charOffset + hSpacingOffset, pos.y, 0),
-            glm::vec3(0, 0, 0), glm::vec3(scale.x, scale.y, 0), color, false);
+        float charOffset = pixelToNormalized(i * fontSize, Engine::resX);
+        // lazy load meshes if more are needed
+        if (characters[i] == NULL) {
+            characters[i] = new Mesh(Utils::quadVertices, Utils::quadIndices,
+                glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 1, 1), false);
+        }
+        // for next frames if mesh attributes change, update them into the lazy loaded meshes
+        characters[i]->position = glm::vec3(pos.x + charOffset + (i == 0 ? 0 : hSpacingOffset), pos.y, 0);
+        characters[i]->scale = glm::vec3(scale.x, scale.y, 0);
+        characters[i]->color = color;
 
         // Bind texture and render quad for character
         glBindTexture(GL_TEXTURE_2D, textures[c]);
 
         // Render textured quad using shaders and VBOs
         characters[i]->render(shaderId);
-
-        delete characters[i];
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glActiveTexture(GL_TEXTURE0);
