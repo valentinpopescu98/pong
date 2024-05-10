@@ -17,7 +17,7 @@ std::vector<GLuint> Utils::quadIndices {
 std::vector<VertexStruct> Utils::circleVertices = {};
 std::vector<GLuint> Utils::circleIndices = {};
 
-std::string Utils::GetFileContents(const char* filePath) {
+std::string Utils::getFileContents(const char* filePath) {
 	std::ifstream in(filePath, std::ios::binary);
 
 	if (in)

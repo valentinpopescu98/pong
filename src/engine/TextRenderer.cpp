@@ -91,11 +91,12 @@ void TextRenderer::createTextures(const unsigned char* buffer, int width, int he
     for (unsigned char c = 0; c < 128; c++) {
         // Load character bitmap and create texture
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+            std::cerr << "Failed to load character '" << c << "'" << std::endl;
             continue;
         }
 
         glGenTextures(1, &textures[c]);
-        glActiveTexture(GL_TEXTURE0 + c);
+        glActiveTexture(GL_TEXTURE0 + (c % 32));
         glBindTexture(GL_TEXTURE_2D, textures[c]);
 
         // Set texture parameters
@@ -107,6 +108,8 @@ void TextRenderer::createTextures(const unsigned char* buffer, int width, int he
         // Upload bitmap data to texture
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, buffer);
 
+        Utils::checkForErrors();
+
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
@@ -114,6 +117,6 @@ void TextRenderer::createTextures(const unsigned char* buffer, int width, int he
 // pixel position in normalized in (-1, 1) interval for model matrix
 // horizontal offset = interval length * offset in pixels / viewport size
 // viewport can be either width or height, depending on which axis the normalization is applied to
-float TextRenderer::pixelToNormalized(float pixelPos, float viewportSize) {
-    return 2 * pixelPos / viewportSize;
+float TextRenderer::pixelToNormalized(int pixelPos, int viewportSize) {
+    return 2 * pixelPos / (float)viewportSize;
 }

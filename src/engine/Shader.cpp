@@ -5,8 +5,8 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
 	this->fragmentShaderPath = fragmentShaderPath;
 
 	// Store VS and FS source code in two strings
-	std::string vertexCode = Utils::GetFileContents(vertexShaderPath); 
-	std::string fragmentCode = Utils::GetFileContents(fragmentShaderPath);
+	std::string vertexCode = Utils::getFileContents(vertexShaderPath); 
+	std::string fragmentCode = Utils::getFileContents(fragmentShaderPath);
 
 	// Convert the VS and FS code into a recognizable format by GLAD (zero-terminated array of characters)
 	const char* vertexSource = vertexCode.c_str();

@@ -14,7 +14,8 @@ struct VertexStruct {
 
 class Utils {
 	public:
-		static std::string GetFileContents(const char* filePath);
+		static std::string getFileContents(const char* filePath);
+		static void checkForErrors();
 		static void buildCircle(float radius, int vCount);
 
 		static void sendMatrix4x4Uniform(GLuint shaderId, const char* uniform, glm::mat4 matrix);
@@ -25,6 +26,4 @@ class Utils {
 		static std::vector<VertexStruct> circleVertices;
 		static std::vector<GLuint> quadIndices;
 		static std::vector<GLuint> circleIndices;
-	private:
-		static void checkForErrors();
 };

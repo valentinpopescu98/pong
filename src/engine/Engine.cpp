@@ -139,7 +139,7 @@ void Engine::update() {
     ballController->moveBall((float) deltaTime);
     ballController->bounceBallIfCollided();
     playerInputManager->treatKeyboardInputs((float) deltaTime);
-    gameEventManager->checkForPlayerWin();
+    //gameEventManager->checkForPlayerWin();
 
     programShader->use();
 
@@ -147,7 +147,7 @@ void Engine::update() {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textRenderer->renderText("a", glm::vec2(0, 0), glm::vec2(0.4, 0.4), glm::vec3(1, 1, 1));
+    textRenderer->renderText("z", glm::vec2(0, 0), glm::vec2(0.4, 0.4), glm::vec3(1, 1, 1));
     glDisable(GL_BLEND);
 }
 

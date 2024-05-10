@@ -18,7 +18,7 @@ class TextRenderer {
 		void renderText(const std::string& text, glm::vec2 pos, glm::vec2 scale, glm::vec3 color);
 	private:
 		void createTextures(const unsigned char* buffer, int width, int height);
-		float pixelToNormalized(float pixelPos, float viewportSize);
+		float pixelToNormalized(int pixelPos, int viewportSize);
 		
 		FT_Library ft;
 		FT_Face face;
