@@ -28,7 +28,7 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, 
         world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8f);
-    textRenderer = new TextRenderer(programShader->id, "arial.ttf", 48);
+    textRenderer = new TextRenderer(programShader->id, "arial.ttf", 96);
 
     enableVsync(isVsyncOn);
 }
@@ -147,7 +147,7 @@ void Engine::update() {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textRenderer->renderText("z", glm::vec2(0, 0), glm::vec2(0.4, 0.4), glm::vec3(1, 1, 1));
+    textRenderer->renderText("4", glm::vec2(-0.5, 0), glm::vec3(1, 1, 1));
     glDisable(GL_BLEND);
 }
 

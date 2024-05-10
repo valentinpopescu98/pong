@@ -4,14 +4,14 @@
 std::vector<VertexStruct> Utils::quadVertices = {
 	//	           COORDS		          NORMALS       TEXT COORDS        COLORS
 	{glm::vec3(-0.5, -0.5, 0),  glm::vec3(-1, -1, 0), glm::vec2(0, 0), glm::vec3(0, 1, 0)}, // bottom left
-	{glm::vec3( 0.5, -0.5, 0),  glm::vec3( 1, -1, 0), glm::vec2(1, 0), glm::vec3(1, 1, 1)}, // bottom right
+	{glm::vec3(-0.5,  0.5, 0),  glm::vec3(-1,  1, 1), glm::vec2(0, 1), glm::vec3(0, 1, 0)}, // top left
 	{glm::vec3( 0.5,  0.5, 0),  glm::vec3( 1,  1, 0), glm::vec2(1, 1), glm::vec3(1, 1, 1)}, // top right
-	{glm::vec3(-0.5,  0.5, 0),  glm::vec3(-1,  1, 1), glm::vec2(0, 1), glm::vec3(0, 1, 0)}  // top left
+	{glm::vec3( 0.5, -0.5, 0),  glm::vec3( 1, -1, 0), glm::vec2(1, 0), glm::vec3(1, 1, 1)}  // bottom right
 };
 
 std::vector<GLuint> Utils::quadIndices {
-	0, 1, 2,		// bottom right triangle
-	2, 3, 0			// top left triangle
+	0, 1, 2,		// top left triangle
+	0, 2, 3			// bottom right triangle
 };
 
 std::vector<VertexStruct> Utils::circleVertices = {};

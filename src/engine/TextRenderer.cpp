@@ -19,7 +19,7 @@ TextRenderer::TextRenderer(GLuint shaderId, const char* fontPath, int fontSize) 
 
     FT_Set_Pixel_Sizes(face, 0, fontSize);
 
-    createTextures(face->glyph->bitmap.buffer, face->glyph->bitmap.width, face->glyph->bitmap.rows);
+    //createTextures(face->glyph->bitmap.buffer, face->glyph->bitmap.width, face->glyph->bitmap.rows);
 }
 
 TextRenderer::~TextRenderer() {
@@ -35,16 +35,18 @@ TextRenderer::~TextRenderer() {
 }
 
 // Function to render text using FreeType and OpenGL
-void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 scale, glm::vec3 color) {
+void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec3 color) {
     if (text == "") {
         return;
     }
 
     Utils::send1iUniform(shaderId, "useTexture", 1);
 
-    characters.resize(text.size(), nullptr);
+    if (text.size() > characters.size()) {
+        characters.resize(text.size(), nullptr);
+    }
 
-    // horizontal offset
+    // horizontal offset for spacing between characters
     float hSpacingOffset = pixelToNormalized(5, Engine::resX);
     for (int i = 0; i < text.size(); i++) {
         unsigned char c = text[i];
@@ -59,64 +61,88 @@ void TextRenderer::renderText(const std::string& text, glm::vec2 pos, glm::vec2 
             continue;
         }
 
-        Utils::send1iUniform(shaderId, "text", textures[c]);
+        // character offset for individual character position in a string
+        float hCharOffset = pixelToNormalized(i * fontSize, Engine::resX);
 
-        // Calculate position and size of quad
-        float charOffset = pixelToNormalized(i * fontSize, Engine::resX);
-        // lazy load meshes if more are needed
-        if (characters[i] == NULL) {
-            characters[i] = new Mesh(Utils::quadVertices, Utils::quadIndices,
-                glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 1, 1), false);
+        // try to create texture
+        // if freetype fails, do not render
+        if (!createTexture(text[i], face->glyph)) {
+            continue;
         }
-        // for next frames if mesh attributes change, update them into the lazy loaded meshes
-        characters[i]->position = glm::vec3(pos.x + charOffset + (i == 0 ? 0 : hSpacingOffset), pos.y, 0);
-        characters[i]->scale = glm::vec3(scale.x, scale.y, 0);
-        characters[i]->color = color;
 
-        // Bind texture and render quad for character
-        glBindTexture(GL_TEXTURE_2D, textures[c]);
+        // width and height of the quad should correspond with the texture
+        float width = pixelToNormalized(face->glyph->bitmap.width, Engine::resX);
+        float height = pixelToNormalized(face->glyph->bitmap.rows, Engine::resY);
 
-        // Render textured quad using shaders and VBOs
-        characters[i]->render(shaderId);
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glActiveTexture(GL_TEXTURE0);
+        renderTexture(textures[c], characters[i],
+            glm::vec2(pos.x + hCharOffset, pos.y),
+            glm::vec2(width, height),
+            color
+        );
     }
 
     Utils::send1iUniform(shaderId, "useTexture", 0);
 }
 
-void TextRenderer::createTextures(const unsigned char* buffer, int width, int height) {
-    // Generate OpenGL texture for each character
-    for (unsigned char c = 0; c < 128; c++) {
+bool TextRenderer::createTexture(unsigned char character, FT_GlyphSlot glyph) {
+    // if texture not found in cache
+    auto it = textures.find(character);
+    if (it == textures.end()) {
         // Load character bitmap and create texture
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
-            std::cerr << "Failed to load character '" << c << "'" << std::endl;
-            continue;
+        if (FT_Load_Char(face, character, FT_LOAD_RENDER)) {
+            std::cerr << "Failed to load character '" << character << "'" << std::endl;
+            return false;
         }
 
-        glGenTextures(1, &textures[c]);
-        glActiveTexture(GL_TEXTURE0 + (c % 32));
-        glBindTexture(GL_TEXTURE_2D, textures[c]);
-
-        // Set texture parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        // Upload bitmap data to texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, buffer);
-
-        Utils::checkForErrors();
-
-        glBindTexture(GL_TEXTURE_2D, 0);
+        textures[character] = textures.size() + 1;
+        glGenTextures(1, &textures[character]);
     }
+
+    glActiveTexture(GL_TEXTURE0 + (textures[character] - 1) % 32);
+    glBindTexture(GL_TEXTURE_2D, textures[character]);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Upload bitmap data to texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, glyph->bitmap.width, glyph->bitmap.rows,
+        0, GL_RED, GL_UNSIGNED_BYTE, glyph->bitmap.buffer);
+
+    Utils::checkForErrors();
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    Utils::send1iUniform(shaderId, "text", (textures[character] - 1) % 32);
 }
 
-// pixel position in normalized in (-1, 1) interval for model matrix
+void TextRenderer::renderTexture(GLuint textureId, Mesh* quad, glm::vec2 pos, glm::vec2 scale, glm::vec3 color) {
+    // lazy load meshes if more are needed
+    if (quad == NULL) {
+        quad = new Mesh(Utils::quadVertices, Utils::quadIndices,
+            glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 1, 1), false);
+    }
+    // for next frames if mesh attributes change, update them into the lazy loaded meshes
+    quad->position = glm::vec3(pos.x, pos.y, 0);
+    quad->scale = glm::vec3(scale.x, scale.y, 0);
+    quad->color = color;
+
+    // Bind texture and render quad for character
+    glActiveTexture(GL_TEXTURE0 + (textureId - 1) % 32);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    // Render textured quad using shaders and VBOs
+    quad->render(shaderId);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+}
+
+// pixel in (-1, 1) interval for model matrix
 // horizontal offset = interval length * offset in pixels / viewport size
 // viewport can be either width or height, depending on which axis the normalization is applied to
-float TextRenderer::pixelToNormalized(int pixelPos, int viewportSize) {
-    return 2 * pixelPos / (float)viewportSize;
+float TextRenderer::pixelToNormalized(int pixel, int viewportSize) {
+    return 2 * pixel / (float)viewportSize;
 }
