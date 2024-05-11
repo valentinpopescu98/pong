@@ -2,7 +2,7 @@
 #include <iostream>
 
 BallController::BallController(PongCollisionManager* pongCollisionManager, 
-	Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling, float ballSpeed) {
+	MeshObj* ball, MeshObj* player1, MeshObj* player2, MeshObj* floor, MeshObj* ceiling, float ballSpeed) {
 	this->pongCollisionManager = pongCollisionManager;
 	this->ballSpeed = ballSpeed;
 
@@ -82,7 +82,7 @@ void BallController::generateNewRandomBallDirection() {
 	ballDirection = glm::vec3(angleX, angleY, 0);
 }
 
-void BallController::setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling) {
+void BallController::setMeshesAndRadii(MeshObj* ball, MeshObj* player1, MeshObj* player2, MeshObj* floor, MeshObj* ceiling) {
 	// meshes
 	this->ball = ball;
 	this->player1 = player1;

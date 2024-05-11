@@ -4,10 +4,10 @@
 
 #include "Utils.h"
 
-class VBO {
+class VBO_Obj {
 	public:
-		VBO(std::vector<VertexStruct> vertices);
-		~VBO();
+		VBO_Obj(std::vector<ObjVertexStruct> vertices);
+		~VBO_Obj();
 		void bind();
 		void unbind();
 

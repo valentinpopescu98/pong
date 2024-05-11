@@ -3,18 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\deps\src\glad.c" />
-    <ClCompile Include="..\src\model\EBO.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\model\VAO.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\model\VBO.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Model\Mesh.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Utils.cpp" />
     <ClCompile Include="..\src\engine\Engine.cpp">
       <Filter>engine</Filter>
@@ -46,20 +34,29 @@
     <ClCompile Include="..\src\engine\TextRenderer.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\model\EBO.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\obj\MeshObj.cpp">
+      <Filter>model\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\obj\VAO_Obj.cpp">
+      <Filter>model\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\obj\VBO_Obj.cpp">
+      <Filter>model\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\text\MeshText.cpp">
+      <Filter>model\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\text\VAO_Text.cpp">
+      <Filter>model\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\text\VBO_Text.cpp">
+      <Filter>model\text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\model\EBO.h">
-      <Filter>model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\model\VAO.h">
-      <Filter>model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\model\VBO.h">
-      <Filter>model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Model\Mesh.h">
-      <Filter>model</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Utils.h" />
     <ClInclude Include="..\src\engine\Engine.h">
       <Filter>engine</Filter>
@@ -91,6 +88,27 @@
     <ClInclude Include="..\src\engine\TextRenderer.h">
       <Filter>engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\model\EBO.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\obj\MeshObj.h">
+      <Filter>model\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\obj\VAO_Obj.h">
+      <Filter>model\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\obj\VBO_Obj.h">
+      <Filter>model\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\text\MeshText.h">
+      <Filter>model\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\text\VAO_Text.h">
+      <Filter>model\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\text\VBO_Text.h">
+      <Filter>model\text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="model">
@@ -105,12 +123,24 @@
     <Filter Include="game">
       <UniqueIdentifier>{a9073faa-19bf-4392-9679-f84bc6c6614f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="model\obj">
+      <UniqueIdentifier>{bfa9f82c-e756-4c76-9dd8-96647b1be5c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\text">
+      <UniqueIdentifier>{e26123c3-abd9-45c5-b9e9-4bb8ec46bcaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\shader\frag.glsl">
+    <None Include="..\src\shader\obj.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="..\src\shader\vert.glsl">
+    <None Include="..\src\shader\obj.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\src\shader\text.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="..\src\shader\text.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

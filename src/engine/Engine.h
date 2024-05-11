@@ -6,7 +6,6 @@
 #include "game/PlayerInputManager.h"
 #include "game/PongCollisionManager.h"
 #include "game/BallController.h"
-#include "TextRenderer.h"
 #include "World.h"
 
 class TextRenderer;
@@ -37,12 +36,12 @@ class Engine {
 		void update();
 		void afterUpdate();
 
-		GLFWwindow* window;
-		Shader* programShader;
-		World* world;
-		PlayerInputManager* playerInputManager;
-		PongCollisionManager* pongCollisionManager;
-		GameEventManager* gameEventManager;
-		BallController* ballController;
-		TextRenderer* textRenderer;
+		GLFWwindow *window;
+		Shader *objShader,*textShader;
+		World *world;
+		PlayerInputManager *playerInputManager;
+		PongCollisionManager *pongCollisionManager;
+		GameEventManager *gameEventManager;
+		BallController *ballController;
+		TextRenderer *textRenderer;
 };

@@ -1,12 +1,12 @@
 #include "Utils.h"
 
-// Data for a quad
-std::vector<VertexStruct> Utils::quadVertices = {
+// Data for an object quad
+std::vector<ObjVertexStruct> Utils::quadVertices = {
 	//	           COORDS		          NORMALS       TEXT COORDS        COLORS
-	{glm::vec3(-0.5, -0.5, 0),  glm::vec3(-1, -1, 0), glm::vec2(0, 0), glm::vec3(0, 1, 0)}, // bottom left
-	{glm::vec3(-0.5,  0.5, 0),  glm::vec3(-1,  1, 1), glm::vec2(0, 1), glm::vec3(0, 1, 0)}, // top left
-	{glm::vec3( 0.5,  0.5, 0),  glm::vec3( 1,  1, 0), glm::vec2(1, 1), glm::vec3(1, 1, 1)}, // top right
-	{glm::vec3( 0.5, -0.5, 0),  glm::vec3( 1, -1, 0), glm::vec2(1, 0), glm::vec3(1, 1, 1)}  // bottom right
+	{glm::vec3(-0.5, -0.5, 0), glm::vec3(-1, -1, 0), glm::vec2(0, 0), glm::vec3(0, 1, 0)}, // bottom left
+	{glm::vec3(-0.5,  0.5, 0), glm::vec3(-1,  1, 1), glm::vec2(0, 1), glm::vec3(0, 1, 0)}, // top left
+	{glm::vec3( 0.5,  0.5, 0), glm::vec3( 1,  1, 0), glm::vec2(1, 1), glm::vec3(1, 1, 1)}, // top right
+	{glm::vec3( 0.5, -0.5, 0), glm::vec3( 1, -1, 0), glm::vec2(1, 0), glm::vec3(1, 1, 1)}  // bottom right
 };
 
 std::vector<GLuint> Utils::quadIndices {
@@ -14,7 +14,8 @@ std::vector<GLuint> Utils::quadIndices {
 	0, 2, 3			// bottom right triangle
 };
 
-std::vector<VertexStruct> Utils::circleVertices = {};
+// Data for an object circle
+std::vector<ObjVertexStruct> Utils::circleVertices = {};
 std::vector<GLuint> Utils::circleIndices = {};
 
 std::string Utils::getFileContents(const char* filePath) {

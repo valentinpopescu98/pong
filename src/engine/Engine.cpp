@@ -19,35 +19,36 @@ Engine::Engine(int resX, int resY, bool isFullscreen, bool isVsyncOn) {
     createWindow(resX, resY, isFullscreen);
 
     // Create shaders
-    programShader = new Shader("src/shader/vert.glsl", "src/shader/frag.glsl");
+    objShader = new Shader("src/shader/obj.vert", "src/shader/obj.frag");
+    textShader = new Shader("src/shader/text.vert", "src/shader/text.frag");
 
-    world = new World(programShader->id);
+    world = new World(objShader->id);
+    textRenderer = new TextRenderer(textShader->id, "arial.ttf", 96);
 
     playerInputManager = new PlayerInputManager(window, &world->player1->position, &world->player2->position, 17);
     pongCollisionManager = new PongCollisionManager(world->ball, 0.03f);
     gameEventManager = new GameEventManager(this, world);
     ballController = new BallController(pongCollisionManager, 
         world->ball, world->player1, world->player2, world->floor, world->ceiling, 0.8f);
-    textRenderer = new TextRenderer(programShader->id, "arial.ttf", 96);
 
     enableVsync(isVsyncOn);
 }
 
 Engine::~Engine() {
-    delete textRenderer;
     delete ballController;
     delete gameEventManager;
     delete pongCollisionManager;
     delete playerInputManager;
+    delete textRenderer;
     deleteWorldIfExists();
-    delete programShader;
+    delete objShader, textShader;
 
     glfwDestroyWindow(window);
     glfwTerminate();
 }
 
 void Engine::createWorld() {
-    world = new World(programShader->id);
+    world = new World(objShader->id);
 
     playerInputManager->setPlayersPositions(&world->player1->position, &world->player2->position);
     pongCollisionManager->setCollidables(world->ball);
@@ -120,6 +121,9 @@ void Engine::frameBufferSizeCallback(GLFWwindow* window, int width, int height) 
 }
 
 void Engine::render() {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     while (!glfwWindowShouldClose(window)) {
         beforeUpdate();
         update();
@@ -128,6 +132,8 @@ void Engine::render() {
         // Compute time since last frame
         setTimeValues();
     }
+
+    glDisable(GL_BLEND);
 }
 
 void Engine::beforeUpdate() {
@@ -141,14 +147,11 @@ void Engine::update() {
     playerInputManager->treatKeyboardInputs((float) deltaTime);
     //gameEventManager->checkForPlayerWin();
 
-    programShader->use();
-
+    objShader->use();
     world->render();
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textRenderer->renderText("4", glm::vec2(-0.5, 0), glm::vec3(1, 1, 1));
-    glDisable(GL_BLEND);
+    textShader->use();
+    textRenderer->renderText("This is sample text", glm::vec2(25, 25), glm::vec3(0.5, 0.8f, 0.2f), 1);
 }
 
 void Engine::afterUpdate() {

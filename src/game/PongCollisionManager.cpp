@@ -1,6 +1,6 @@
 #include "PongCollisionManager.h"
 
-PongCollisionManager::PongCollisionManager(Mesh* ball, float overlapError)
+PongCollisionManager::PongCollisionManager(MeshObj* ball, float overlapError)
 	: CollisionManager() {
 	setCollidables(ball);
 	this->overlapError = overlapError;
@@ -16,11 +16,11 @@ PongCollisionManager::~PongCollisionManager() {
 	this->ballRadius = 0;
 }
 
-bool PongCollisionManager::hasBallCollidedMesh(Mesh* mesh) {
+bool PongCollisionManager::hasBallCollidedMesh(MeshObj* mesh) {
 	return mesh->isCollidable && 
 		CollisionManager::hasCircleCollidedAABB(mesh->position, mesh->scale, ball->position, ballRadius, overlapError);
 }
 
-void PongCollisionManager::setCollidables(Mesh* ball) {
+void PongCollisionManager::setCollidables(MeshObj* ball) {
 	this->ball = ball;
 }

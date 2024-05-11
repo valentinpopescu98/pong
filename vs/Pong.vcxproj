@@ -32,9 +32,12 @@
     <ClCompile Include="..\src\game\PongCollisionManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\model\EBO.cpp" />
-    <ClCompile Include="..\src\Model\Mesh.cpp" />
-    <ClCompile Include="..\src\model\VAO.cpp" />
-    <ClCompile Include="..\src\model\VBO.cpp" />
+    <ClCompile Include="..\src\model\obj\MeshObj.cpp" />
+    <ClCompile Include="..\src\model\obj\VAO_Obj.cpp" />
+    <ClCompile Include="..\src\model\obj\VBO_Obj.cpp" />
+    <ClCompile Include="..\src\model\text\MeshText.cpp" />
+    <ClCompile Include="..\src\model\text\VAO_Text.cpp" />
+    <ClCompile Include="..\src\model\text\VBO_Text.cpp" />
     <ClCompile Include="..\src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -49,14 +52,19 @@
     <ClInclude Include="..\src\game\PlayerInputManager.h" />
     <ClInclude Include="..\src\game\PongCollisionManager.h" />
     <ClInclude Include="..\src\model\EBO.h" />
-    <ClInclude Include="..\src\Model\Mesh.h" />
-    <ClInclude Include="..\src\model\VAO.h" />
-    <ClInclude Include="..\src\model\VBO.h" />
+    <ClInclude Include="..\src\model\obj\MeshObj.h" />
+    <ClInclude Include="..\src\model\obj\VAO_Obj.h" />
+    <ClInclude Include="..\src\model\obj\VBO_Obj.h" />
+    <ClInclude Include="..\src\model\text\MeshText.h" />
+    <ClInclude Include="..\src\model\text\VAO_Text.h" />
+    <ClInclude Include="..\src\model\text\VBO_Text.h" />
     <ClInclude Include="..\src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\shader\frag.glsl" />
-    <None Include="..\src\shader\vert.glsl" />
+    <None Include="..\src\shader\obj.frag" />
+    <None Include="..\src\shader\obj.vert" />
+    <None Include="..\src\shader\text.frag" />
+    <None Include="..\src\shader\text.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

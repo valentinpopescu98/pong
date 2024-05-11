@@ -16,10 +16,8 @@ void main() {
 	// vec3 outNormal = normalize(normal); // Normalize the normals (make it in range [0, 1])
 
 	if (useTexture == 1) {
-		//outColor = vec4(1,0,0, 1.0f);
 		outColor =  textColor * vec4(objColor, 1.0f); // Output color of each fragment combined with the texture
 	} else {
-		//outColor = vec4(0,1,0, 1.0f);
 		outColor =  vec4(objColor, 1.0f); // Output color of each fragment
 	}
 }

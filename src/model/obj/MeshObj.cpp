@@ -1,6 +1,6 @@
-#include "Mesh.h"
+#include "MeshObj.h"
 
-Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
+MeshObj::MeshObj(std::vector<ObjVertexStruct> vertices, std::vector<GLuint> indices,
     glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color, bool isCollidable) {
     this->vertices = vertices;
     this->indices = indices;
@@ -13,23 +13,23 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices,
     this->isCollidable = isCollidable;
 
     // Create buffers
-    vao = new VAO(); // Create VAO and bind it
-    vbo = new VBO(vertices); // Create VBO, bind and send buffers to GPU
+    vao = new VAO_Obj(); // Create VAO and bind it
+    vbo = new VBO_Obj(vertices); // Create VBO, bind and send buffers to GPU
     ebo = new EBO(indices); // Create EBO, bind and send buffers to GPU
 
-    vao->linkVBO(vbo, 0, sizeof(VertexStruct), (void*)0); // Link VBOs to location 0
-    vao->linkVBO(vbo, 1, sizeof(VertexStruct), (void*)offsetof(VertexStruct, normals)); // Link VBOs to location 1
-    vao->linkVBO(vbo, 2, sizeof(VertexStruct), (void*)offsetof(VertexStruct, textCoords)); // Link VBOs to location 2
-    vao->linkVBO(vbo, 3, sizeof(VertexStruct), (void*)offsetof(VertexStruct, colors)); // Link VBOs to location 3
+    vao->linkVBO(vbo, 0, sizeof(ObjVertexStruct), (void*)0); // Link VBOs to location 0
+    vao->linkVBO(vbo, 1, sizeof(ObjVertexStruct), (void*)offsetof(ObjVertexStruct, normals)); // Link VBOs to location 1
+    vao->linkVBO(vbo, 2, sizeof(ObjVertexStruct), (void*)offsetof(ObjVertexStruct, textCoords)); // Link VBOs to location 2
+    vao->linkVBO(vbo, 3, sizeof(ObjVertexStruct), (void*)offsetof(ObjVertexStruct, colors)); // Link VBOs to location 3
 
     vao->unbind(); // Unbind VAO
     vbo->unbind(); // Unbind VBO
     ebo->unbind(); // Unbind EBO
 }
 
-Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices, Mesh& parent,
+MeshObj::MeshObj(std::vector<ObjVertexStruct> vertices, std::vector<GLuint> indices, MeshObj& parent,
     glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 color, bool isCollidable)
-    : Mesh(vertices, indices, position, rotation, scale, color, isCollidable) {
+    : MeshObj(vertices, indices, position, rotation, scale, color, isCollidable) {
 
     this->position += parent.position;
     this->rotation += parent.rotation;
@@ -38,13 +38,13 @@ Mesh::Mesh(std::vector<VertexStruct> vertices, std::vector<GLuint> indices, Mesh
     this->isCollidable = isCollidable;
 }
 
-Mesh::~Mesh() {
+MeshObj::~MeshObj() {
     delete vao; // Unbind VAO
     delete vbo; // Unbind VBO
     delete ebo; // Unbind EBO
 }
 
-void Mesh::render(GLuint shaderId) {
+void MeshObj::render(GLuint shaderId) {
     // Create model matrix and calculate object's global position, rotation and scale
     glm::mat4 model = glm::translate(glm::mat4(1.0f), position) *
         glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)) *

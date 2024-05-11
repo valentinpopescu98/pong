@@ -1,27 +1,27 @@
 #pragma once
 #include <random>
 
-#include "model/Mesh.h"
+#include "model/obj/MeshObj.h"
 #include "PongCollisionManager.h"
 
 class BallController {
 	public:
 		BallController(PongCollisionManager* pongCollisionManager,
-			Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling, float ballSpeed);
+			MeshObj* ball, MeshObj* player1, MeshObj* player2, MeshObj* floor, MeshObj* ceiling, float ballSpeed);
 		~BallController();
 		void moveBall(float deltaTime);
 		void bounceBallIfCollided();
 		void generateNewRandomBallDirection();
-		void setMeshesAndRadii(Mesh* ball, Mesh* player1, Mesh* player2, Mesh* floor, Mesh* ceiling);
+		void setMeshesAndRadii(MeshObj* ball, MeshObj* player1, MeshObj* player2, MeshObj* floor, MeshObj* ceiling);
 	private:
 		void bounceBallOfWall();
 		void bounceBallOfPlayer1();
 		void bounceBallOfPlayer2();
 		
 		PongCollisionManager* pongCollisionManager;
-		Mesh *ball;
-		Mesh *player1, *player2;
-		Mesh *floor, *ceiling;
+		MeshObj *ball;
+		MeshObj *player1, *player2;
+		MeshObj *floor, *ceiling;
 		glm::vec3 ballDirection;
 		float ballSpeed;
 

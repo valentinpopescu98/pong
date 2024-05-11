@@ -1,15 +1,15 @@
 #pragma once
 #include "engine/CollisionManager.h"
-#include "model/Mesh.h"
+#include "model/obj/MeshObj.h"
 
 class PongCollisionManager : public CollisionManager {
 	public:
-		PongCollisionManager(Mesh* ball, float overlapError);
+		PongCollisionManager(MeshObj* ball, float overlapError);
 		~PongCollisionManager();
-		bool hasBallCollidedMesh(Mesh* mesh);
-		void setCollidables(Mesh* ball);
+		bool hasBallCollidedMesh(MeshObj* mesh);
+		void setCollidables(MeshObj* ball);
 	private:
-		Mesh* ball;
+		MeshObj* ball;
 		float ballRadius;
 		float overlapError;
 };

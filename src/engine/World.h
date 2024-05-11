@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "model/Mesh.h"
+#include "model/obj/MeshObj.h"
 #include "Shader.h"
 
 class World {
@@ -9,12 +9,11 @@ class World {
 		World(GLuint shaderId);
 		~World();
 		void render();
-		GLuint getShaderId();
 
-		Mesh *floor, *ceiling;
-		std::vector<Mesh*> middle;
-		Mesh *player1, *player2;
-		Mesh *ball;
+		MeshObj *floor, *ceiling;
+		std::vector<MeshObj*> middle;
+		MeshObj *player1, *player2;
+		MeshObj *ball;
 	private:
 		GLuint shaderId;
 };
